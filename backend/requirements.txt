@@ -1,0 +1,7 @@
+# CodeSense AI — backend dependencies. by Nitish Singh
+# Pinned to the versions verified against Python 3.11+ (tested on 3.14).
+fastapi==0.139.2
+uvicorn[standard]==0.51.0
+google-genai==2.12.1
+python-dotenv==1.2.2
+pydantic==2.13.4

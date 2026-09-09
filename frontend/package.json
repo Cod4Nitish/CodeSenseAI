@@ -1,0 +1,22 @@
+{
+  "name": "codesense-ai-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CodeSense AI — AI-powered code review UI. by Nitish Singh",
+  "author": "Nitish Singh",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.1.5"
+  }
+}
