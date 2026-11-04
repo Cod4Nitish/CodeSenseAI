@@ -2546,3 +2546,5 @@ html[data-app="standalone"] :is(textarea, input, select, code, pre, .te-ta, .mon
 @media (prefers-reduced-motion: reduce) { .ld *, .ld *::after { animation: none !important; transition: none !important; } }
 
 .results-loading .skeleton-list { display: none; }
+
+.ai-launch .sm { display: none; }

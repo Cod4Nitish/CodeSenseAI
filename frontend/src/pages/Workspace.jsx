@@ -8,6 +8,8 @@
  *   • a Monaco DiffEditor toggle to review original ↔ AI-suggested before accepting
  */
 
+import { success, tick } from "../lib/haptics";
+import Icon from "../components/Icon";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -216,6 +218,7 @@ export default function Workspace() {
     }
     let analysisResult = null;
     inFlightRef.current = true;
+    tick();
     setLoading(true);
     setMobilePane("results"); // phone app mode: show the live progress + lessons straight away
     setError(null);
@@ -229,6 +232,7 @@ export default function Workspace() {
     try {
       const data = await analyzeCode(src, lang, { persist: isAuthed });
       setResults(data);
+      success();
       setMobilePane("results");
       setAnalyzedCode(src);
       setScanCount((c) => c + 1);
@@ -579,8 +583,8 @@ export default function Workspace() {
     <>
       <div className="workspace">
         <div className="pane-switch" role="tablist" aria-label="Show code or results">
-          <button type="button" role="tab" aria-selected={mobilePane === "code"} className={mobilePane === "code" ? "on" : ""} onClick={() => setMobilePane("code")}>Code</button>
-          <button type="button" role="tab" aria-selected={mobilePane === "results"} className={mobilePane === "results" ? "on" : ""} onClick={() => setMobilePane("results")}>
+          <button type="button" role="tab" aria-selected={mobilePane === "code"} className={mobilePane === "code" ? "on" : ""} onClick={() => { tick(); setMobilePane("code"); }}>Code</button>
+          <button type="button" role="tab" aria-selected={mobilePane === "results"} className={mobilePane === "results" ? "on" : ""} onClick={() => { tick(); setMobilePane("results"); }}>
             Results{results?.issue_count ? <i className="pane-pill">{results.issue_count.high + results.issue_count.medium + results.issue_count.low}</i> : null}
           </button>
         </div>
@@ -598,11 +602,11 @@ export default function Workspace() {
               <span className="pane-header-actions">
                 <button type="button" className="ai-launch" onClick={handleAutoFix}
                   disabled={fixing || loading || !code.trim()} title="Let Gemini fix the whole file, then review a before/after diff">
-                  {fixing ? "⟳ fixing…" : "✦ Fix it for me"}
+                  {fixing ? "⟳ fixing…" : <><Icon name="wand" /><span className="lg">Fix it for me</span><span className="sm">Fix</span></>}
                 </button>
                 <button type="button" className={`ai-launch ${aiOpen ? "on" : ""}`} onClick={() => setAiOpen((v) => !v)}
                   aria-pressed={aiOpen} title="Chat, explain code, generate tests">
-                  ◈ Ask AI
+                  <Icon name="chat" />Ask AI
                 </button>
               </span>
               <span className="pane-header-meta">

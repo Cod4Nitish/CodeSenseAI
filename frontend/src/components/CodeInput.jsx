@@ -1,3 +1,4 @@
+import Icon from "./Icon";
 import { useEffect, useRef, useState } from "react";
 import Editor, { DiffEditor } from "@monaco-editor/react";
 import { useTheme, useSettings } from "../lib/theme";
@@ -296,7 +297,7 @@ export default function CodeInput({
                 disabled={loading}
                 title="Load a sample snippet"
               >
-                <span>⊞</span> examples
+                <Icon name="grid" />examples
               </button>
 
               {showSamples && (
@@ -331,7 +332,7 @@ export default function CodeInput({
             />
             <button className="samples-btn" onClick={() => fileRef.current?.click()} disabled={loading}
               title="Open a source file (or drag one onto the editor)">
-              <span>↑</span> open
+              <Icon name="upload" />open
             </button>
             {canDiff && (
               <button
@@ -340,7 +341,7 @@ export default function CodeInput({
                 disabled={loading}
                 title="Compare original vs AI-suggested fixes"
               >
-                <span>⇄</span> compare
+                <Icon name="swap" />compare
               </button>
             )}
 
@@ -368,7 +369,7 @@ export default function CodeInput({
                 disabled={loading || !code.trim() || overLimit}
                 title="Analyze code (Ctrl+Enter)"
               >
-                {loading ? "reviewing…" : "▶ Review my code"}
+                {loading ? "reviewing…" : <><Icon name="play" filled />Review my code</>}
               </button>
             </div>
           </>

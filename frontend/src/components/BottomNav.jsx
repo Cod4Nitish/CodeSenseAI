@@ -3,6 +3,7 @@
  * by Nitish Singh
  */
 import { NavLink, useLocation } from "react-router-dom";
+import { tick } from "../lib/haptics";
 
 const HIDE = ["/", "/product", "/about", "/login", "/signup", "/forgot-password"];
 const I = { width: 22, height: 22, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true };
@@ -20,7 +21,7 @@ export default function BottomNav() {
   return (
     <nav className="bottom-nav" aria-label="App">
       {TABS.map(([to, label, icon]) => (
-        <NavLink key={to} to={to} end={to === "/app"} className={({ isActive }) => `bn-item${isActive ? " on" : ""}`}>
+        <NavLink key={to} to={to} end={to === "/app"} onClick={tick} className={({ isActive }) => `bn-item${isActive ? " on" : ""}`}>
           {icon}<span>{label}</span>
         </NavLink>
       ))}

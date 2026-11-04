@@ -85,6 +85,7 @@ export default function InstallDialog() {
   const [copied, setCopied] = useState(false);
   const { installed, canPrompt, promptInstall } = useInstall();
   const boxRef = useRef(null);
+  const drag = useRef({ y: 0, dy: 0 });
 
   useEffect(() => {
     const onOpen = () => { setTab(detected); setMsg(""); setOpen(true); };
@@ -120,6 +121,10 @@ export default function InstallDialog() {
   return (
     <div className="inst-back" onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
       <div className="inst" role="dialog" aria-modal="true" aria-labelledby="inst-h" ref={boxRef} tabIndex={-1}>
+        <div className="inst-grab" aria-hidden="true"
+          onTouchStart={(e) => { drag.current = { y: e.touches[0].clientY, dy: 0 }; }}
+          onTouchMove={(e) => { const dy = Math.max(0, e.touches[0].clientY - drag.current.y); drag.current.dy = dy; if (boxRef.current) boxRef.current.style.transform = `translateY(${dy}px)`; }}
+          onTouchEnd={() => { if (drag.current.dy > 90) setOpen(false); else if (boxRef.current) boxRef.current.style.transform = ""; }} />
         <button type="button" className="inst-x" onClick={() => setOpen(false)} aria-label="Close">✕</button>
         <div className="inst-head">
           <img src="/favicon.svg" alt="" width="44" height="44" />

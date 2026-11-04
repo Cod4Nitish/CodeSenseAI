@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
     <title>CodeSense AI — Code Review by Nitish Kumar Singh</title>
     <meta name="description" content="AI-powered code review tool built by Nitish Singh. Detects bugs, security vulnerabilities, performance issues and style violations using Google Gemini AI." />
     <meta name="author" content="Nitish Kumar Singh" />
@@ -48,6 +48,16 @@
             if (installed || phone) r.setAttribute('data-app', 'standalone'); else r.removeAttribute('data-app');
           };
           applyApp();
+          // keyboard open? (visual viewport much shorter than the largest height seen) -> data-kb hides the tab bar
+          if (window.visualViewport) {
+            var vv = window.visualViewport, base = vv.height, bw = window.innerWidth;
+            var kb = function () {
+              if (window.innerWidth !== bw) { bw = window.innerWidth; base = vv.height; }
+              if (vv.height > base) base = vv.height;
+              if (base - vv.height > 140) r.setAttribute('data-kb', ''); else r.removeAttribute('data-kb');
+            };
+            vv.addEventListener('resize', kb);
+          }
           ['(display-mode: standalone)', '(max-width: 820px)', '(pointer: coarse)'].forEach(function (q) {
             var m = window.matchMedia(q); if (m.addEventListener) m.addEventListener('change', applyApp);
           });
