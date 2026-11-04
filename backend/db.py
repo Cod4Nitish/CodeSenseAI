@@ -54,6 +54,10 @@ def _prepare_url(raw: str) -> tuple[str, dict]:
     args: dict = {}
     if sslmode and sslmode != "disable":
         args["ssl"] = True
+    # Hosted Postgres (Neon etc.) sits behind pgbouncer in transaction mode, which cannot
+    # keep asyncpg's prepared statements. Disable the statement cache so queries are safe there.
+    args["statement_cache_size"] = 0                  # asyncpg's own cache
+    query["prepared_statement_cache_size"] = "0"      # SQLAlchemy's asyncpg dialect cache
     return urlunsplit(parts._replace(query=urlencode(query))), args
 
 
