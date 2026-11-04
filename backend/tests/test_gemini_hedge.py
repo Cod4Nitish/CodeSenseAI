@@ -11,7 +11,6 @@ from services import gemini_service as g
 def three_keys(monkeypatch):
     monkeypatch.setattr(g, "_clients", ["k1", "k2", "k3"])
     monkeypatch.setattr(g, "_HEDGE_S", 0.15)
-    monkeypatch.setattr(g, "_rr", iter(range(0, 1000, 3)))  # always start on key 0 (0 % 3)
 
 
 def _run(coro):

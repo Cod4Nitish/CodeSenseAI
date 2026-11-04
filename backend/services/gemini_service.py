@@ -13,7 +13,6 @@ import os
 import re
 import json
 import asyncio
-import itertools
 import logging
 from typing import Any
 
@@ -25,8 +24,8 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Client initialisation — key loaded from environment (never hardcoded)
 # ---------------------------------------------------------------------------
-# One key is enough. Extra keys (GEMINI_API_KEYS=key2,key3) add capacity and speed: calls are spread across
-# keys, and a slow or rate-limited call is raced against the next key ("hedged request").
+# One key is enough. Extra keys (GEMINI_API_KEYS=key2,key3) are BACKUPS: they are only used when the main key is
+# slow or rate-limited, by racing the next key ("hedged request"). Normal traffic stays on the main key.
 _keys: list[str] = []
 for _k in [os.getenv("GEMINI_API_KEY", ""), *re.split(r"[,\s]+", os.getenv("GEMINI_API_KEYS", ""))]:
     _k = _k.strip().strip('"')
@@ -40,7 +39,6 @@ if not _keys:
 
 _clients = [genai.Client(api_key=k) for k in _keys]
 _client = _clients[0]
-_rr = itertools.count()
 logger.info("Gemini: %d API key(s) configured", len(_clients))
 
 # Primary model is overridable via env; a stable fallback covers the case where
@@ -261,15 +259,14 @@ async def _call_model(model: str, user_prompt: str, system_prompt: str | None = 
 async def _call_hedged(model: str, user_prompt: str, system_prompt: str | None = None) -> str:
     """Call Gemini using every configured key as a safety net.
 
-    Start on the next key in rotation. If it fails (429, error, timeout) go straight to the next key;
+    Start on the main key. If it fails (429, error, timeout) go straight to the next key;
     if it is merely slow, race the next key after _HEDGE_S. First good answer wins, the rest are cancelled.
     With a single key this is a plain call.
     """
     n = len(_clients)
     if n == 1:
         return await _call_model(model, user_prompt, system_prompt, _clients[0])
-    start = next(_rr) % n
-    order = [_clients[(start + i) % n] for i in range(n)]
+    order = list(_clients)  # main key first; the others are backups and only used when it is slow or failing
     pending: set[asyncio.Task] = set()
     errors: list[BaseException] = []
     launched = 0
