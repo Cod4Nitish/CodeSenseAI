@@ -62,7 +62,7 @@ senior to ask** and for **developers who want a fast second pair of eyes**.
 | 📱 | **Works on phones** | Touch editor, offline-friendly service worker, full icon set for Android and iOS |
 | 🎨 | **Dithered Lo-fi theme** | Dark and light, designed to stay readable |
 
-## 📸 Screenshots
+## 📸 Screenshots 
 
 <table>
   <tr>
