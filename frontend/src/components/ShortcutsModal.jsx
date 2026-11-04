@@ -9,6 +9,10 @@ const SHORTCUTS = [
   { desc: "Copy suggested fix",      keys: ["click", "copy"] },
   { desc: "Expand / collapse all",   keys: ["click", "expand all"] },
   { desc: "Export Markdown report",  keys: ["click", "⬇ export .md"] },
+  { desc: "Open a source file",      keys: ["click", "open"] },
+  { desc: "Drop a file to load it",  keys: ["drag", "onto editor"] },
+  { desc: "Paste from clipboard",    keys: ["click", "paste"] },
+  { desc: "Stage every fix at once", keys: ["click", "fix all"] },
 ];
 
 export default function ShortcutsModal({ onClose }) {

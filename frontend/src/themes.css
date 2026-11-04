@@ -1,0 +1,280 @@
+/* ============================================================
+   CodeSense AI - palettes (selected via <html data-palette>).
+   Soft Pastel lives in App.css (:root / [data-theme="dark"]).
+   Everything here overrides the same custom properties, so every page
+   (/, /pr, /learn, /dashboard, /welcome, AI drawer) follows automatically.
+   Severity colours are AA-checked against their surfaces in each palette.
+   by Nitish Kumar Singh
+   ============================================================ */
+
+/* ── 1. Dithered Lo-fi (default) - light ───────────────────── */
+html[data-palette="lofi"] {
+  --scheme: light;
+  --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-head: 'Syne', 'Inter', system-ui, sans-serif;
+  --font-label: 'Space Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --bg-base: #f2efe8; --bg-panel: #fcfbf7; --bg-surface: #ece8de; --bg-raised: #ffffff;
+  --bg-input: #ffffff; --bg-hover: #e8e3d8; --bg-active: #ddd6c6; --bg-gutter: #ece8de;
+  --border: rgba(26,26,26,0.16); --border-mid: rgba(26,26,26,0.32); --border-hi: rgba(26,26,26,0.85);
+  --error: #b3261e; --error-dim: rgba(179,38,30,0.09); --error-border: rgba(179,38,30,0.5); --error-glow: rgba(179,38,30,0.05);
+  --warn: #864c00; --warn-dim: rgba(134,76,0,0.1); --warn-border: rgba(134,76,0,0.5); --warn-glow: rgba(134,76,0,0.05);
+  --ok: #1f6b3a; --ok-dim: rgba(31,107,58,0.1); --ok-border: rgba(31,107,58,0.5); --ok-glow: rgba(31,107,58,0.05);
+  --accent: #2b3bff; --accent-dim: rgba(43,59,255,0.09); --accent-border: rgba(43,59,255,0.45);
+  --text: #1a1a1a; --text-bright: #000000; --text-muted: #55555e; --text-dim: #5f5f68; --text-code: #1a1a1a;
+  --grad-brand: linear-gradient(120deg, #2b3bff 0%, #ff7acb 100%);
+  --glass: #fcfbf7;
+  --shadow-card: 4px 4px 0 #1a1a1a;
+  --tb-bg: rgba(242,239,232,0.94);
+  --glow-1: rgba(255,122,203,0.14); --glow-2: rgba(43,59,255,0.08); --glow-3: rgba(43,59,255,0.04);
+  --brand-glow: rgba(43,59,255,0.25);
+  --tb-line: linear-gradient(90deg, #1a1a1a, #1a1a1a);
+  --on-solid: #ffffff;
+  --accent-2: #ff7acb;
+  --line: #1a1a1a;
+  --hard: 3px 3px 0 #1a1a1a;
+  --hero-dither: radial-gradient(circle, rgba(26,26,26,0.26) 1px, transparent 1.4px) 0 0/5px 5px, linear-gradient(180deg, rgba(255,122,203,0.25), transparent 75%);
+  --r-sm: 3px; --r-md: 3px; --r-lg: 14px;
+}
+html[data-palette="lofi"][data-theme="dark"] {
+  --scheme: dark;
+  --bg-base: #0a0a12; --bg-panel: #0f0f1a; --bg-surface: #14141f; --bg-raised: #1d1d2c;
+  --bg-input: #0d0d17; --bg-hover: #1d1d2c; --bg-active: #272740; --bg-gutter: #0c0c16;
+  --border: rgba(154,160,255,0.16); --border-mid: rgba(154,160,255,0.3); --border-hi: rgba(154,160,255,0.55);
+  --error: #ff8a9a; --error-dim: rgba(255,138,154,0.13); --error-border: rgba(255,138,154,0.42); --error-glow: rgba(255,138,154,0.05);
+  --warn: #ffb454; --warn-dim: rgba(255,180,84,0.12); --warn-border: rgba(255,180,84,0.4); --warn-glow: rgba(255,180,84,0.05);
+  --ok: #6ee7b0; --ok-dim: rgba(110,231,176,0.12); --ok-border: rgba(110,231,176,0.36); --ok-glow: rgba(110,231,176,0.05);
+  --accent: #8d98ff; --accent-dim: rgba(141,152,255,0.14); --accent-border: rgba(141,152,255,0.45);
+  --text: #ececf5; --text-bright: #ffffff; --text-muted: #a8a8c4; --text-dim: #8d8dab; --text-code: #d8d8ea;
+  --grad-brand: linear-gradient(120deg, #7b87ff 0%, #ff8ad8 100%);
+  --glass: #14141f;
+  --shadow-card: 4px 4px 0 #ff8ad8;
+  --tb-bg: rgba(10,10,18,0.94);
+  --glow-1: rgba(123,135,255,0.2); --glow-2: rgba(255,138,216,0.1); --glow-3: rgba(123,135,255,0.05);
+  --brand-glow: rgba(123,135,255,0.4);
+  --tb-line: linear-gradient(90deg, #3a3a58, #3a3a58);
+  --on-solid: #05051a;
+  --line: #3a3a58;
+  --hard: 3px 3px 0 #ff8ad8;
+  --hero-dither: radial-gradient(circle, rgba(236,236,245,0.26) 1px, transparent 1.4px) 0 0/5px 5px, linear-gradient(180deg, rgba(123,135,255,0.28), transparent 75%);
+}
+
+/* ── 2. Graphite & Lime (fixed dark) ───────────────────────── */
+html[data-palette="graphite"] {
+  --scheme: dark;
+  --font-ui: 'Geist', 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-head: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --bg-base: #09090b; --bg-panel: #0f0f12; --bg-surface: #141418; --bg-raised: #1a1a1f;
+  --bg-input: #0c0c0f; --bg-hover: #1c1c22; --bg-active: #24242b; --bg-gutter: #0b0b0e;
+  --border: rgba(255,255,255,0.08); --border-mid: rgba(255,255,255,0.14); --border-hi: rgba(255,255,255,0.28);
+  --error: #ff6b6b; --error-dim: rgba(255,107,107,0.14); --error-border: rgba(255,107,107,0.38); --error-glow: rgba(255,107,107,0.06);
+  --warn: #ffb224; --warn-dim: rgba(255,178,36,0.14); --warn-border: rgba(255,178,36,0.38); --warn-glow: rgba(255,178,36,0.05);
+  --ok: #4fd6a0; --ok-dim: rgba(79,214,160,0.13); --ok-border: rgba(79,214,160,0.34); --ok-glow: rgba(79,214,160,0.05);
+  --accent: #c4f82a; --accent-dim: rgba(196,248,42,0.11); --accent-border: rgba(196,248,42,0.32);
+  --text: #d6d6dc; --text-bright: #fafafa; --text-muted: #a0a0ab; --text-dim: #8a8a96; --text-code: #cfcfd6;
+  --grad-brand: linear-gradient(120deg, #c4f82a 0%, #4fd6a0 100%);
+  --glass: #141418;
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.04), 0 10px 24px rgba(0,0,0,0.5);
+  --tb-bg: rgba(9,9,11,0.92);
+  --glow-1: rgba(196,248,42,0.07); --glow-2: rgba(79,214,160,0.04); --glow-3: rgba(196,248,42,0.02);
+  --brand-glow: rgba(196,248,42,0.3);
+  --tb-line: linear-gradient(90deg, transparent, rgba(196,248,42,0.5), transparent);
+  --on-solid: #0a0d00;
+  --r-sm: 2px; --r-md: 3px; --r-lg: 4px;
+}
+
+/* ── 3. Paper & Ink (fixed light) ──────────────────────────── */
+html[data-palette="paper"] {
+  --scheme: light;
+  --font-ui: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-head: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-mono: 'DM Mono', 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --bg-base: #eeece6; --bg-panel: #f7f6f2; --bg-surface: #f1efe8; --bg-raised: #ffffff;
+  --bg-input: #fcfbf8; --bg-hover: #ebe8e0; --bg-active: #e2ded3; --bg-gutter: #f0eee8;
+  --border: rgba(20,22,26,0.12); --border-mid: rgba(20,22,26,0.22); --border-hi: rgba(20,22,26,0.45);
+  --error: #b3261e; --error-dim: rgba(179,38,30,0.09); --error-border: rgba(179,38,30,0.45); --error-glow: rgba(179,38,30,0.05);
+  --warn: #864c00; --warn-dim: rgba(134,76,0,0.1); --warn-border: rgba(134,76,0,0.45); --warn-glow: rgba(134,76,0,0.05);
+  --ok: #1f6b3a; --ok-dim: rgba(31,107,58,0.1); --ok-border: rgba(31,107,58,0.45); --ok-glow: rgba(31,107,58,0.05);
+  --accent: #b8340f; --accent-dim: rgba(214,63,23,0.09); --accent-border: rgba(214,63,23,0.4);
+  --text: #25272c; --text-bright: #101216; --text-muted: #565a63; --text-dim: #5e626b; --text-code: #25272c;
+  --grad-brand: linear-gradient(120deg, #d63f17 0%, #e8a33d 100%);
+  --glass: #fcfbf8;
+  --shadow-card: 0 1px 0 rgba(20,22,26,.04), 0 2px 6px rgba(60,50,30,.07), 0 12px 28px -12px rgba(60,50,30,.18);
+  --tb-bg: rgba(247,246,242,0.94);
+  --glow-1: rgba(214,63,23,0.05); --glow-2: rgba(232,163,61,0.05); --glow-3: transparent;
+  --brand-glow: rgba(214,63,23,0.2);
+  --tb-line: linear-gradient(90deg, rgba(20,22,26,0.5), rgba(20,22,26,0.5));
+  --on-solid: #ffffff;
+  --r-sm: 3px; --r-md: 6px; --r-lg: 10px;
+}
+html[data-palette="paper"] .tb-brand-name,
+html[data-palette="paper"] .landing-title,
+html[data-palette="paper"] .lp h1,
+html[data-palette="paper"] .lp h2 { font-weight: 600; letter-spacing: -0.02em; }
+html[data-palette="paper"] .btn-primary { background: #d63f17; border-color: #d63f17; }
+
+/* ── 4. Arctic Glass (fixed light, frosted) ────────────────── */
+html[data-palette="arctic"] {
+  --scheme: light;
+  --font-ui: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-head: 'Albert Sans', system-ui, sans-serif;
+  --font-mono: 'Fragment Mono', 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --bg-base: #dcecf2; --bg-panel: rgba(255,255,255,0.58); --bg-surface: rgba(255,255,255,0.72); --bg-raised: rgba(255,255,255,0.88);
+  --bg-input: rgba(255,255,255,0.8); --bg-hover: rgba(255,255,255,0.95); --bg-active: rgba(214,236,242,0.95); --bg-gutter: rgba(232,244,248,0.65);
+  --border: rgba(11,37,64,0.1); --border-mid: rgba(11,37,64,0.18); --border-hi: rgba(11,37,64,0.4);
+  --error: #a8252a; --error-dim: rgba(168,37,42,0.09); --error-border: rgba(168,37,42,0.4); --error-glow: rgba(168,37,42,0.05);
+  --warn: #7f4c00; --warn-dim: rgba(127,76,0,0.1); --warn-border: rgba(127,76,0,0.4); --warn-glow: rgba(127,76,0,0.05);
+  --ok: #14693f; --ok-dim: rgba(20,105,63,0.1); --ok-border: rgba(20,105,63,0.4); --ok-glow: rgba(20,105,63,0.05);
+  --accent: #05626f; --accent-dim: rgba(8,122,140,0.1); --accent-border: rgba(8,122,140,0.4);
+  --text: #12304f; --text-bright: #061a33; --text-muted: #38546e; --text-dim: #435d77; --text-code: #12304f;
+  --grad-brand: linear-gradient(120deg, #087a8c 0%, #4a8fe0 100%);
+  --glass: rgba(255,255,255,0.72);
+  --shadow-card: 0 1px 0 rgba(255,255,255,.8) inset, 0 18px 40px -22px rgba(10,60,95,.35);
+  --tb-bg: rgba(255,255,255,0.62);
+  --glow-1: rgba(8,122,140,0.18); --glow-2: rgba(120,170,255,0.2); --glow-3: rgba(8,122,140,0.1);
+  --brand-glow: rgba(8,122,140,0.3);
+  --tb-line: linear-gradient(90deg, transparent, rgba(8,122,140,0.4), transparent);
+  --on-solid: #ffffff;
+  --r-sm: 10px; --r-md: 14px; --r-lg: 22px;
+}
+html[data-palette="arctic"] body {
+  background: linear-gradient(180deg, #e9f5f9 0%, #d3e8f1 100%) fixed;
+}
+html[data-palette="arctic"] .tb,
+html[data-palette="arctic"] .pane-header,
+html[data-palette="arctic"] .code-toolbar,
+html[data-palette="arctic"] .issue-card,
+html[data-palette="arctic"] .pr-card,
+html[data-palette="arctic"] .usp-card,
+html[data-palette="arctic"] .how-step,
+html[data-palette="arctic"] .lp-tile,
+html[data-palette="arctic"] .tb-menu,
+html[data-palette="arctic"] .ai-drawer,
+html[data-palette="arctic"] .bnav,
+html[data-palette="arctic"] .sheet,
+html[data-palette="arctic"] .lc-card {
+  -webkit-backdrop-filter: saturate(1.4) blur(18px);
+  backdrop-filter: saturate(1.4) blur(18px);
+}
+html[data-palette="arctic"] .editor-wrapper,
+html[data-palette="arctic"] .te { background: rgba(255,255,255,0.8); }
+
+/* Non-pill shapes for the sharper palettes */
+html[data-palette="graphite"] :is(.btn, .samples-btn, .lang-select, .tb-nav-link, .ai-launch, .fchip, .tb-seg, .tb-seg button, .tb-icon-btn, .sw-card),
+html[data-palette="paper"] :is(.btn, .samples-btn, .lang-select, .tb-nav-link, .ai-launch, .fchip, .tb-seg, .tb-seg button, .tb-icon-btn, .sw-card) {
+  border-radius: var(--r-md);
+}
+html[data-palette="paper"] .tb-brand-mark,
+html[data-palette="graphite"] .tb-brand-mark { background: var(--accent); color: var(--on-solid); }
+
+/* ── Dithered Lo-fi signature touches (kept readable) ──────── */
+html[data-palette="lofi"] body::after {
+  content: ""; position: fixed; inset: 0; z-index: 99; pointer-events: none; opacity: 0.06;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html[data-palette="lofi"][data-theme="dark"] body::after { opacity: 0.09; }
+/* dithered hero backgrounds (landing, welcome, PR hero, learn) */
+html[data-palette="lofi"] :is(.landing-hero, .lp-hero, .pr-hero, .lc-hero) {
+  background: var(--hero-dither);
+  border-bottom: 2px solid var(--line);
+}
+html[data-palette="lofi"] :is(.landing-hero, .pr-hero) { padding-bottom: 28px; }
+/* chunky borders */
+html[data-palette="lofi"] :is(.pr-card, .usp-card, .how-step, .lp-tile, .lc-card, .tb-menu, .sheet, .pr-group) {
+  border: 2px solid var(--line); box-shadow: var(--hard); border-radius: 3px var(--r-lg) 3px var(--r-lg);
+}
+html[data-palette="lofi"] :is(.usp-card, .lp-tile, .lc-card.hover):hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--line); }
+html[data-palette="lofi"] .issue-card { border-bottom: 2px solid var(--line); }
+html[data-palette="lofi"] .ai-drawer { border-left: 2px solid var(--line); box-shadow: -6px 0 0 var(--accent-2); }
+html[data-palette="lofi"] :is(.btn, .samples-btn, .ai-launch, .tb-signin, .lang-select, .copy-btn) {
+  border: 2px solid var(--line); border-radius: 3px; font-weight: 700;
+}
+html[data-palette="lofi"] :is(.btn:not(:disabled), .samples-btn:not(:disabled)) { box-shadow: 2px 2px 0 var(--line); }
+html[data-palette="lofi"] :is(.btn:not(:disabled), .samples-btn:not(:disabled)):hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--line); }
+html[data-palette="lofi"] :is(.btn:not(:disabled), .samples-btn:not(:disabled)):active { transform: none; box-shadow: none; }
+html[data-palette="lofi"] .btn-primary { border-color: var(--line); }
+html[data-palette="lofi"] .btn-primary:not(:disabled):hover { box-shadow: 3px 3px 0 var(--line); filter: none; }
+html[data-palette="lofi"] .tb { border-bottom: 2px solid var(--line); box-shadow: none; }
+html[data-palette="lofi"] .tb::after { display: none; }
+html[data-palette="lofi"] .tb-brand-mark { background: var(--accent); color: var(--on-solid); border: 2px solid var(--line); border-radius: 3px; box-shadow: 2px 2px 0 var(--accent-2); }
+html[data-palette="lofi"] .tb-nav-link { border-radius: 3px; font-family: var(--font-label); text-transform: uppercase; letter-spacing: .04em; font-size: 11.5px; font-weight: 700; }
+html[data-palette="lofi"] .tb-nav-link.active { background: var(--accent); color: var(--on-solid); box-shadow: 2px 2px 0 var(--line); }
+html[data-palette="lofi"] .pane-header, html[data-palette="lofi"] .code-toolbar { border-bottom: 2px solid var(--line); }
+html[data-palette="lofi"] .pane-divider { background: var(--line); width: 2px; }
+html[data-palette="lofi"] .status-bar { border-top: 2px solid var(--line); }
+/* mono micro-labels */
+html[data-palette="lofi"] :is(.pane-header-label, .issue-section-label, .tb-menu-label, .ai-role, .summary-label, .issues-gutter-header,
+  .stat-label, .fchip, .cwe-chip, .landing-eyebrow, .lp-eyebrow, .sample-lang, .char-pill, .status-seg, .issue-type-chip, .eng-chip, .bnav-lbl, .lc-label, .samples-group-label) {
+  font-family: var(--font-label);
+}
+html[data-palette="lofi"] :is(.landing-title, .pr-hero h1, .lp h1, .lc-title) { text-shadow: 2px 2px 0 var(--accent-2); font-weight: 800; letter-spacing: -0.03em; }
+html[data-palette="lofi"] .landing-title .grad { background: none; -webkit-text-fill-color: var(--accent); color: var(--accent); }
+html[data-palette="lofi"] .lp-grad { background: none; -webkit-text-fill-color: var(--accent); color: var(--accent); text-shadow: 2px 2px 0 var(--accent-2); }
+html[data-palette="lofi"] .fchip { border-radius: 0; border-width: 2px; }
+html[data-palette="lofi"] .fchip.on { background: var(--accent); color: var(--on-solid); border-color: var(--line); }
+html[data-palette="lofi"] .fchip.sev-high.on, html[data-palette="lofi"] .fchip.sev-medium.on, html[data-palette="lofi"] .fchip.sev-low.on { color: var(--text-bright); background: var(--bg-active); }
+/* code/editor areas stay clean: no texture, no shadows */
+html[data-palette="lofi"] :is(.editor-wrapper, .te, .issue-fix, .md-pre, .lc-code) { box-shadow: none; }
+/* signature glitch on hover (from the dithered-lofi theme) */
+@keyframes lofi-glitch { 25% { transform: translate(-2px, 1px); text-shadow: 2px 0 var(--accent-2); } 75% { transform: translate(2px, -1px); text-shadow: -2px 0 var(--accent); } }
+html[data-palette="lofi"] :is(.btn:not(:disabled), .samples-btn:not(:disabled)):hover { animation: lofi-glitch .3s steps(2) 1; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-palette="lofi"] :is(.btn, .samples-btn):hover { animation: none !important; }
+  html[data-palette="lofi"] :is(.btn, .samples-btn, .usp-card, .lp-tile):hover { transform: none !important; }
+}
+
+.tb-brand-logo { display: block; width: 36px; height: 36px; flex: none; }
+.landing-simple .simple-steps { display: flex; gap: 12px; flex-wrap: wrap; list-style: none; padding: 0 20px; margin: 24px 0 0; }
+.landing-simple .how-step { flex: 1 1 150px; }
+
+/* ── Readability pass: Syne ExtraBold + negative tracking + hard shadow made headings look cramped ── */
+html[data-palette="lofi"] :is(.landing-title, .pr-hero h1, .lp h1, .lc-title) {
+  letter-spacing: 0.01em; word-spacing: 0.12em; line-height: 1.3; font-weight: 700;
+  text-shadow: 1px 1px 0 var(--accent-2);
+}
+html[data-palette="lofi"] .landing-title { font-size: clamp(26px, 3.4vw, 38px); margin: 18px 0 14px; }
+html[data-palette="lofi"] :is(.tb-brand-name, .how-step strong, .usp-card h3, .dash-title, h2, h3) { letter-spacing: 0.01em; word-spacing: 0.08em; }
+html[data-palette="lofi"] .tb-brand-by { letter-spacing: 0.02em; margin-top: 2px; }
+html[data-palette="lofi"] .landing-sub { font-size: 15px; line-height: 1.75; letter-spacing: 0.005em; max-width: 56ch; }
+html[data-palette="lofi"] .landing-simple .landing-cta { gap: 12px; margin-top: 22px; }
+html[data-palette="lofi"] .landing-simple .how-step { padding: 14px 16px; gap: 12px; }
+html[data-palette="lofi"] .landing-simple .how-step span:not(.how-n) { display: block; margin-top: 3px; font-size: 12.5px; letter-spacing: 0.01em; }
+
+/* ── Top bar v2: one clean row (logo, 4 links, 3 icons) ── */
+html[data-palette="lofi"] .tb { height: 56px; padding: 0 16px; gap: 12px; }
+html[data-palette="lofi"] .tb-left { gap: 20px; }
+html[data-palette="lofi"] .tb-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; flex: none; }
+html[data-palette="lofi"] .tb-brand-name { font-family: var(--font-head); font-weight: 700; font-size: 15px; letter-spacing: 0.01em; color: var(--text-bright); white-space: nowrap; }
+html[data-palette="lofi"] .tb-nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+html[data-palette="lofi"] .tb-nav::-webkit-scrollbar { display: none; }
+html[data-palette="lofi"] .tb-nav-link { white-space: nowrap; padding: 7px 12px; font-size: 12px; text-decoration: none; }
+html[data-palette="lofi"] .tb-right { gap: 8px; flex: none; }
+@media (max-width: 720px) {
+  html[data-palette="lofi"] .tb { padding: 0 10px; gap: 8px; }
+  html[data-palette="lofi"] .tb-brand-name { display: none; }
+  html[data-palette="lofi"] .tb-left { gap: 8px; min-width: 0; flex: 1; }
+  html[data-palette="lofi"] .tb-nav-link { padding: 7px 9px; font-size: 11px; }
+}
+
+/* ── Workspace start panel: roomier, nothing touching the edges ── */
+html[data-palette="lofi"] .landing-simple .landing-hero { padding: 28px 32px 30px; }
+html[data-palette="lofi"] .landing-simple .landing-title { font-size: clamp(22px, 2.3vw, 30px); line-height: 1.35; text-shadow: none; margin: 16px 0 12px; overflow-wrap: anywhere; }
+html[data-palette="lofi"] .landing-simple .landing-sub { font-size: 14.5px; line-height: 1.75; }
+html[data-palette="lofi"] .landing-simple .simple-steps { flex-direction: column; gap: 10px; padding: 0 32px; margin-top: 20px; }
+html[data-palette="lofi"] .landing-simple .how-step { flex: none; width: 100%; display: flex; align-items: center; gap: 14px; }
+html[data-palette="lofi"] .landing-simple .how-step strong { font-family: var(--font-ui); font-size: 14px; font-weight: 700; display: block; letter-spacing: 0; }
+
+/* ── Type: use the loaded Syne weight (600) and give words room; mono UI text needs real word gaps ── */
+html[data-palette="lofi"] :is(h1, h2, h3, h4, .tb-brand-name, .landing-title, .pr-hero h1, .lc-title, .how-step strong, .usp-card h3, .dash-title) { font-weight: 600; }
+html[data-palette="lofi"] :is(.btn, .samples-btn, .ai-launch, .tb-nav-link, .tb-signin, .fchip, .lang-select, .copy-btn) { word-spacing: 0.18em; letter-spacing: 0.02em; }
+html[data-palette="lofi"] :is(.pane-header-label, .issue-section-label, .summary-label, .issues-gutter-header) { word-spacing: 0.2em; }
+
+/* ── Top bar on phones: two tidy rows (logo + icons, then 4 equal tabs) so nothing is clipped ── */
+@media (max-width: 720px) {
+  html[data-palette="lofi"] .tb { height: auto; flex-wrap: wrap; padding: 8px 10px 6px; row-gap: 6px; }
+  html[data-palette="lofi"] .tb-left { display: contents; }
+  html[data-palette="lofi"] .tb-brand { order: 1; }
+  html[data-palette="lofi"] .tb-right { order: 2; margin-left: auto; }
+  html[data-palette="lofi"] .tb-nav { order: 3; width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; overflow: visible; }
+  html[data-palette="lofi"] .tb-nav-link { text-align: center; padding: 8px 2px; font-size: 10.5px; }
+}

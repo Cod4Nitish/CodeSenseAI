@@ -48,5 +48,5 @@ python -m uvicorn main:app --reload --port 8000
 |----------|----------|---------|
 | `GEMINI_API_KEY` | **yes** | — |
 | `GEMINI_MODEL` | no | `gemini-3.1-flash-lite` |
-| `GEMINI_FALLBACK_MODEL` | no | `gemini-2.5-flash-lite` |
+| `GEMINI_FALLBACK_MODEL` | no | `gemini-3.5-flash-lite` |
 | `GEMINI_TIMEOUT_S` | no | `45` |

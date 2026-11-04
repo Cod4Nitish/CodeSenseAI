@@ -36,7 +36,7 @@ _client = genai.Client(api_key=_api_key)
 # Primary model is overridable via env; a stable fallback covers the case where
 # the primary name is not available for a given key / region.
 _PRIMARY_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite").strip()
-_FALLBACK_MODEL = os.getenv("GEMINI_FALLBACK_MODEL", "gemini-2.5-flash-lite").strip()
+_FALLBACK_MODEL = os.getenv("GEMINI_FALLBACK_MODEL", "gemini-3.5-flash-lite").strip()
 _REQUEST_TIMEOUT_S = float(os.getenv("GEMINI_TIMEOUT_S", "45"))
 
 # Remembered once a model has served a successful request.
@@ -92,6 +92,8 @@ Rules:
 - If the code is genuinely clean, return "issues": [].
 - "line" must be an integer that exists in the submitted code, or null.
 - Keep "suggested_fix" copy-paste useful. Use the same language as the input.
+- For every "security" issue, classify it against the CWE and OWASP Top-10 (2021)
+  taxonomies: start "explanation" with a tag like "[CWE-89 · OWASP A03:2021 Injection]".
 - Output the JSON object and nothing else.
 """
 
@@ -210,17 +212,23 @@ def _build_user_prompt(code: str, language: str) -> str:
     )
 
 
-async def _call_model(model: str, user_prompt: str) -> str:
+async def _call_model(model: str, user_prompt: str, system_prompt: str | None = None) -> str:
     """One async Gemini call. Returns raw text or raises."""
     response = await asyncio.wait_for(
         _client.aio.models.generate_content(
             model=model,
             contents=user_prompt,
             config=types.GenerateContentConfig(
-                system_instruction=_SYSTEM_PROMPT,
+                system_instruction=system_prompt or _SYSTEM_PROMPT,
                 temperature=0.2,
-                max_output_tokens=4096,
+                max_output_tokens=8192 if system_prompt else 4096,
                 response_mime_type="application/json",
+                # Gemini 3 models "think" by default; low keeps latency demo-friendly.
+                thinking_config=(
+                    types.ThinkingConfig(thinking_level="low")
+                    if model.startswith("gemini-3")
+                    else None
+                ),
             ),
         ),
         timeout=_REQUEST_TIMEOUT_S,
@@ -248,9 +256,17 @@ async def analyze_code(code: str, language: str) -> dict[str, Any]:
     Returns a dict shaped like AnalyzeResponse. Raises ValueError with a
     user-friendly message on unrecoverable failure.
     """
-    global _resolved_model
+    data, served_by = await generate_json(_build_user_prompt(code, language))
+    result = _normalise(data)
+    result["model"] = served_by
+    return result
 
-    user_prompt = _build_user_prompt(code, language)
+
+async def generate_json(
+    user_prompt: str, system_prompt: str | None = None
+) -> tuple[dict[str, Any], str | None]:
+    """Model-fallback + retry + tolerant-JSON pipeline shared by all reviewers."""
+    global _resolved_model
 
     # Try the remembered model first, then primary, then fallback — de-duplicated.
     candidates: list[str] = []
@@ -262,9 +278,20 @@ async def analyze_code(code: str, language: str) -> dict[str, Any]:
     raw_text: str | None = None
     served_by: str | None = None
 
+    first_error: Exception | None = None
     for model in candidates:
         try:
-            raw_text = await _call_model(model, user_prompt)
+            try:
+                raw_text = await _call_model(model, user_prompt, system_prompt)
+            except Exception as e:  # noqa: BLE001
+                # Overloaded / rate-limited: one short back-off retry on the same model.
+                m = str(e).lower()
+                if any(t in m for t in ("503", "unavailable", "overloaded", "429", "resource_exhausted")):
+                    logger.info("Gemini busy on model=%s, retrying once", model)
+                    await asyncio.sleep(1.5)
+                    raw_text = await _call_model(model, user_prompt, system_prompt)
+                else:
+                    raise
             served_by = model
             break
         except asyncio.TimeoutError:
@@ -275,6 +302,7 @@ async def analyze_code(code: str, language: str) -> dict[str, Any]:
             break  # a timeout is not a model-availability problem
         except Exception as e:  # noqa: BLE001 — we want to try the next model
             last_error = e
+            first_error = first_error or e
             msg = str(e).lower()
             transient_model_issue = any(
                 t in msg for t in ("not found", "404", "not supported", "permission",
@@ -285,13 +313,15 @@ async def analyze_code(code: str, language: str) -> dict[str, Any]:
                 break  # real error (bad key, quota, network) — stop trying models
 
     if raw_text is None:
-        raise ValueError(f"Gemini API error: {last_error}")
+        # Surface the primary model's error (the fallback's is usually less relevant),
+        # trimmed so the UI never shows a wall of raw provider JSON.
+        err = str(first_error or last_error)
+        if len(err) > 220:
+            err = err[:220].rstrip() + "…"
+        raise ValueError(f"AI engine is busy or unavailable — please retry. ({err})")
 
     if served_by and served_by != _resolved_model:
         _resolved_model = served_by
         logger.info("Gemini model resolved to '%s'", served_by)
 
-    data = _loads_tolerant(raw_text)
-    result = _normalise(data)
-    result["model"] = served_by
-    return result
+    return _loads_tolerant(raw_text), served_by

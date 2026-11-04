@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { computeScore } from "../lib/score";
+import { useScanMode } from "../lib/device";
 
 /**
  * ScoreBadge — deterministic Quality Score + letter grade.
@@ -8,6 +9,7 @@ import { computeScore } from "../lib/score";
  * Score = 10 - (high*2.5) - (medium*0.8) - (low*0.2), clamped [0, 10]
  */
 export default function ScoreBadge({ issueCount }) {
+  const scanMode = useScanMode();
   const { score, display, grade, tone, label, counts, total } =
     computeScore(issueCount);
 
@@ -40,6 +42,7 @@ export default function ScoreBadge({ issueCount }) {
   return (
     <div className={`score-badge tone-${tone}`} role="img"
          aria-label={`Quality score ${display} out of 10, grade ${grade}, ${label}`}>
+      {scanMode !== "off" && <span className="radar" aria-hidden="true"><i /><i /><i /></span>}
       <div className="score-grade-ring">
         <span className="score-grade">{grade}</span>
       </div>

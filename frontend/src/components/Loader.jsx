@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const STEPS = ["parsing", "reviewing", "formatting"];
+const STEPS = ["parsing", "reviewing", "scoring"];
 
 export default function Loader() {
   // Advance through steps; hold on the last one until the response lands.
@@ -22,6 +22,7 @@ export default function Loader() {
 
   return (
     <div className="loader-wrapper" role="status" aria-live="polite" aria-label="Analyzing code…">
+      <div className="loader-bar" aria-hidden="true" />
       <div className="loader-terminal">
         <span className="loader-prompt">&gt;&nbsp;</span>
         <span>{STEPS[active]}</span>

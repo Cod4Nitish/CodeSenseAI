@@ -1,0 +1,742 @@
+[
+ {
+  "id": "py-v01",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": "f-string interpolated into execute()",
+  "code": "import sqlite3\n\ndef get_user(conn, username):\n    cur = conn.cursor()\n    cur.execute(f\"SELECT * FROM users WHERE name = '{username}'\")\n    return cur.fetchone()\n"
+ },
+ {
+  "id": "py-v02",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": "string concatenation into execute()",
+  "code": "def find_orders(db, customer):\n    return db.execute(\"SELECT * FROM orders WHERE customer = '\" + customer + \"'\").fetchall()\n"
+ },
+ {
+  "id": "py-v03",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": ".format() into execute()",
+  "code": "def delete_row(cursor, table_id):\n    cursor.execute(\"DELETE FROM items WHERE id = {}\".format(table_id))\n"
+ },
+ {
+  "id": "py-v04",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": "HARD: query built in a variable first (single-line regex cannot see it)",
+  "code": "def search(cursor, term):\n    query = \"SELECT * FROM products WHERE title LIKE '%\" + term + \"%'\"\n    cursor.execute(query)\n    return cursor.fetchall()\n"
+ },
+ {
+  "id": "py-v05",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "hardcoded-secret"
+  ],
+  "note": "literal API key assigned to a constant",
+  "code": "API_KEY = \"sk_live_9f8e7d6c5b4a3f2e\"\n\ndef headers():\n    return {\"X-Api-Key\": API_KEY}\n"
+ },
+ {
+  "id": "py-v06",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "hardcoded-secret"
+  ],
+  "note": "password passed as keyword literal",
+  "code": "import psycopg2\n\ndef connect():\n    return psycopg2.connect(host=\"db.internal\", user=\"admin\", password=\"Adm1n#Pass2024\")\n"
+ },
+ {
+  "id": "py-v07",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "eval"
+  ],
+  "note": "eval on caller-supplied string",
+  "code": "def calculate(expression):\n    return eval(expression)\n"
+ },
+ {
+  "id": "py-v08",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "eval"
+  ],
+  "note": "exec on caller-supplied string",
+  "code": "def run_snippet(source):\n    exec(source)\n"
+ },
+ {
+  "id": "py-v09",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "command-injection"
+  ],
+  "note": "os.system with concatenated host",
+  "code": "import os\n\ndef ping(host):\n    os.system(\"ping -c 1 \" + host)\n"
+ },
+ {
+  "id": "py-v10",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "command-injection"
+  ],
+  "note": "subprocess with shell=True",
+  "code": "import subprocess\n\ndef archive(name):\n    subprocess.run(\"tar czf out.tgz \" + name, shell=True)\n"
+ },
+ {
+  "id": "py-v11",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "insecure-deserialization"
+  ],
+  "note": "pickle.loads on external bytes",
+  "code": "import pickle\n\ndef load_session(blob):\n    return pickle.loads(blob)\n"
+ },
+ {
+  "id": "py-v12",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "insecure-deserialization"
+  ],
+  "note": "yaml.load without SafeLoader",
+  "code": "import yaml\n\ndef read_config(text):\n    return yaml.load(text)\n"
+ },
+ {
+  "id": "py-v13",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "weak-hash"
+  ],
+  "note": "MD5 used for passwords",
+  "code": "import hashlib\n\ndef hash_password(pw):\n    return hashlib.md5(pw.encode()).hexdigest()\n"
+ },
+ {
+  "id": "py-v14",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "tls-verify-off"
+  ],
+  "note": "certificate verification disabled",
+  "code": "import requests\n\ndef fetch(url):\n    return requests.get(url, verify=False, timeout=5).text\n"
+ },
+ {
+  "id": "py-v15",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "debug-mode"
+  ],
+  "note": "Flask debug server",
+  "code": "from flask import Flask\napp = Flask(__name__)\n\nif __name__ == \"__main__\":\n    app.run(debug=True)\n"
+ },
+ {
+  "id": "py-v16",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "bare-except"
+  ],
+  "note": "bare except clause",
+  "code": "def read_number(text):\n    try:\n        return int(text)\n    except:\n        return 0\n"
+ },
+ {
+  "id": "py-v17",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "mutable-default"
+  ],
+  "note": "mutable default argument",
+  "code": "def add_item(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n"
+ },
+ {
+  "id": "py-v18",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "syntax-error"
+  ],
+  "note": "missing colon",
+  "code": "def total(prices):\n    s = 0\n    for p in prices\n        s += p\n    return s\n"
+ },
+ {
+  "id": "py-v19",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "div-zero"
+  ],
+  "note": "divisor never checked (n can be 0)",
+  "code": "def average(values):\n    n = len(values)\n    return sum(values) / n\n"
+ },
+ {
+  "id": "py-v20",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "swallowed-exception"
+  ],
+  "note": "except ...: pass",
+  "code": "def close_quietly(handle):\n    try:\n        handle.close()\n    except OSError:\n        pass\n"
+ },
+ {
+  "id": "py-v21",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "weak-random"
+  ],
+  "note": "predictable PRNG for a security token",
+  "code": "import random\nimport string\n\ndef make_reset_token():\n    return \"\".join(random.choice(string.ascii_letters) for _ in range(16))\n"
+ },
+ {
+  "id": "py-v22",
+  "language": "python",
+  "label": "vulnerable",
+  "expected": [
+   "none-compare"
+  ],
+  "note": "== None instead of is None",
+  "code": "def label(x):\n    if x == None:\n        return \"missing\"\n    return str(x)\n"
+ },
+ {
+  "id": "py-c01",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "parameterised query",
+  "code": "def get_user(conn, username):\n    cur = conn.cursor()\n    cur.execute(\"SELECT * FROM users WHERE name = %s\", (username,))\n    return cur.fetchone()\n"
+ },
+ {
+  "id": "py-c02",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "sqlite placeholders",
+  "code": "import sqlite3\n\ndef add_note(conn: sqlite3.Connection, owner, text):\n    conn.execute(\"INSERT INTO notes(owner, body) VALUES (?, ?)\", (owner, text))\n    conn.commit()\n"
+ },
+ {
+  "id": "py-c03",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "secrets read from environment",
+  "code": "import os\n\nAPI_KEY = os.environ[\"API_KEY\"]\nDB_PASSWORD = os.getenv(\"DB_PASSWORD\", \"\")\n\ndef headers():\n    return {\"X-Api-Key\": API_KEY}\n"
+ },
+ {
+  "id": "py-c04",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "ast.literal_eval is safe (look-alike of eval)",
+  "code": "import ast\n\ndef parse_literal(text):\n    return ast.literal_eval(text)\n"
+ },
+ {
+  "id": "py-c05",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "argument list, no shell",
+  "code": "import subprocess\n\ndef ping(host):\n    return subprocess.run([\"ping\", \"-c\", \"1\", host], check=True, capture_output=True)\n"
+ },
+ {
+  "id": "py-c06",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "json instead of pickle",
+  "code": "import json\n\ndef load_session(blob):\n    return json.loads(blob)\n"
+ },
+ {
+  "id": "py-c07",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "safe_load",
+  "code": "import yaml\n\ndef read_config(text):\n    return yaml.safe_load(text)\n"
+ },
+ {
+  "id": "py-c08",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "SHA-256",
+  "code": "import hashlib\n\ndef fingerprint(data: bytes) -> str:\n    return hashlib.sha256(data).hexdigest()\n"
+ },
+ {
+  "id": "py-c09",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "MD5 explicitly marked non-security (cache etag)",
+  "code": "import hashlib\n\ndef etag(data: bytes) -> str:\n    return hashlib.md5(data, usedforsecurity=False).hexdigest()\n"
+ },
+ {
+  "id": "py-c10",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "specific exception and logging",
+  "code": "import logging\nlog = logging.getLogger(__name__)\n\ndef read_number(text):\n    try:\n        return int(text)\n    except ValueError as exc:\n        log.warning(\"bad number %r: %s\", text, exc)\n        return 0\n"
+ },
+ {
+  "id": "py-c11",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "None-default idiom",
+  "code": "def add_item(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\n"
+ },
+ {
+  "id": "py-c12",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "division guarded by an explicit zero check",
+  "code": "def average(values):\n    n = len(values)\n    if n == 0:\n        return 0.0\n    return sum(values) / n\n"
+ },
+ {
+  "id": "py-c13",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "CSPRNG for token",
+  "code": "import secrets\n\ndef make_reset_token():\n    return secrets.token_urlsafe(32)\n"
+ },
+ {
+  "id": "py-c14",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "is None",
+  "code": "def label(x):\n    if x is None:\n        return \"missing\"\n    return str(x)\n"
+ },
+ {
+  "id": "py-c15",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "constant named token_type holds the word 'bearer', not a secret",
+  "code": "class Auth:\n    token_type = \"bearer\"\n    header_name = \"Authorization\"\n\n    def header(self, token):\n        return {self.header_name: f\"{self.token_type} {token}\"}\n"
+ },
+ {
+  "id": "py-c16",
+  "language": "python",
+  "label": "clean",
+  "expected": [],
+  "note": "division guarded by conditional expression",
+  "code": "def ratio(done, total):\n    return done / total if total else 0.0\n"
+ },
+ {
+  "id": "js-v01",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": "template literal into query()",
+  "code": "function findUser(db, name) {\n  return db.query(`SELECT * FROM users WHERE name = '${name}'`);\n}\n"
+ },
+ {
+  "id": "js-v02",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": "concatenation into query()",
+  "code": "function findOrder(db, id) {\n  return db.query(\"SELECT * FROM orders WHERE id = \" + id);\n}\n"
+ },
+ {
+  "id": "js-v03",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "hardcoded-secret"
+  ],
+  "note": "literal key in source",
+  "code": "const apiKey = \"AKfake_live_71c0ffee91b2\";\nmodule.exports = { apiKey };\n"
+ },
+ {
+  "id": "js-v04",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "eval"
+  ],
+  "note": "eval of caller string",
+  "code": "function compute(expr) {\n  return eval(expr);\n}\n"
+ },
+ {
+  "id": "js-v05",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "xss"
+  ],
+  "note": "innerHTML with raw data",
+  "code": "function show(el, comment) {\n  el.innerHTML = comment;\n}\n"
+ },
+ {
+  "id": "js-v06",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "xss"
+  ],
+  "note": "document.write with data",
+  "code": "function banner(msg) {\n  document.write(\"<h1>\" + msg + \"</h1>\");\n}\n"
+ },
+ {
+  "id": "js-v07",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "xss"
+  ],
+  "note": "React dangerouslySetInnerHTML",
+  "code": "function Comment({ html }) {\n  return <div dangerouslySetInnerHTML={{ __html: html }} />;\n}\n"
+ },
+ {
+  "id": "js-v08",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "command-injection"
+  ],
+  "note": "child_process.exec with concatenation",
+  "code": "const { exec } = require(\"child_process\");\n\nfunction lookup(host) {\n  exec(\"nslookup \" + host, (err, out) => console.log(out));\n}\n"
+ },
+ {
+  "id": "js-v09",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "weak-random"
+  ],
+  "note": "Math.random for a session token",
+  "code": "function newSessionToken() {\n  return Math.random().toString(36).slice(2);\n}\n"
+ },
+ {
+  "id": "js-v10",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "weak-hash"
+  ],
+  "note": "MD5 password digest",
+  "code": "const crypto = require(\"crypto\");\n\nfunction digest(pw) {\n  return crypto.createHash(\"md5\").update(pw).digest(\"hex\");\n}\n"
+ },
+ {
+  "id": "js-v11",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "tls-verify-off"
+  ],
+  "note": "TLS verification disabled",
+  "code": "const https = require(\"https\");\nconst agent = new https.Agent({ rejectUnauthorized: false });\n"
+ },
+ {
+  "id": "js-v12",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "loose-equality"
+  ],
+  "note": "loose equality",
+  "code": "function isAdmin(role) {\n  return role == \"admin\";\n}\n"
+ },
+ {
+  "id": "js-v13",
+  "language": "javascript",
+  "label": "vulnerable",
+  "expected": [
+   "swallowed-exception"
+  ],
+  "note": "empty catch block",
+  "code": "function parse(text) {\n  try {\n    return JSON.parse(text);\n  } catch (e) {}\n  return null;\n}\n"
+ },
+ {
+  "id": "js-c01",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "placeholder query",
+  "code": "function findUser(db, name) {\n  return db.query(\"SELECT * FROM users WHERE name = ?\", [name]);\n}\n"
+ },
+ {
+  "id": "js-c02",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "secrets from env",
+  "code": "const apiKey = process.env.API_KEY;\nconst dbPassword = process.env.DB_PASSWORD || \"\";\nmodule.exports = { apiKey, dbPassword };\n"
+ },
+ {
+  "id": "js-c03",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "textContent",
+  "code": "function show(el, comment) {\n  el.textContent = comment;\n}\n"
+ },
+ {
+  "id": "js-c04",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "execFile with argument array",
+  "code": "const { execFile } = require(\"child_process\");\n\nfunction lookup(host) {\n  execFile(\"nslookup\", [host], (err, out) => console.log(out));\n}\n"
+ },
+ {
+  "id": "js-c05",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "CSPRNG",
+  "code": "const crypto = require(\"crypto\");\n\nfunction newSessionToken() {\n  return crypto.randomBytes(32).toString(\"hex\");\n}\n"
+ },
+ {
+  "id": "js-c06",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "SHA-256",
+  "code": "const crypto = require(\"crypto\");\n\nfunction digest(data) {\n  return crypto.createHash(\"sha256\").update(data).digest(\"hex\");\n}\n"
+ },
+ {
+  "id": "js-c07",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "strict equality",
+  "code": "function isAdmin(role) {\n  return role === \"admin\";\n}\n"
+ },
+ {
+  "id": "js-c08",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "RegExp.exec is not child_process.exec",
+  "code": "function firstWord(text) {\n  const m = /^(\\w+)/.exec(text);\n  return m ? m[1] : \"\";\n}\n"
+ },
+ {
+  "id": "js-c09",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "catch handles the error",
+  "code": "function parse(text) {\n  try {\n    return JSON.parse(text);\n  } catch (e) {\n    console.error(\"bad json\", e);\n    return null;\n  }\n}\n"
+ },
+ {
+  "id": "js-c10",
+  "language": "javascript",
+  "label": "clean",
+  "expected": [],
+  "note": "Math.random for jitter, not for secrets",
+  "code": "function pick(n) {\n  const delay = Math.random() * 100;\n  return { n, delay };\n}\n"
+ },
+ {
+  "id": "java-v01",
+  "language": "java",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": "concatenated SQL",
+  "code": "public class UserDao {\n    public ResultSet find(Statement st, String name) throws SQLException {\n        return st.executeQuery(\"SELECT * FROM users WHERE name = '\" + name + \"'\");\n    }\n}\n"
+ },
+ {
+  "id": "java-v02",
+  "language": "java",
+  "label": "vulnerable",
+  "expected": [
+   "hardcoded-secret"
+  ],
+  "note": "literal password constant",
+  "code": "public class Config {\n    private static final String PASSWORD = \"Sup3rS3cret!\";\n}\n"
+ },
+ {
+  "id": "java-v03",
+  "language": "java",
+  "label": "vulnerable",
+  "expected": [
+   "weak-hash"
+  ],
+  "note": "MD5 MessageDigest",
+  "code": "public class Hasher {\n    public byte[] hash(byte[] in) throws Exception {\n        return MessageDigest.getInstance(\"MD5\").digest(in);\n    }\n}\n"
+ },
+ {
+  "id": "java-v04",
+  "language": "java",
+  "label": "vulnerable",
+  "expected": [
+   "insecure-deserialization"
+  ],
+  "note": "ObjectInputStream on external stream",
+  "code": "public class Loader {\n    public Object read(InputStream in) throws Exception {\n        ObjectInputStream ois = new ObjectInputStream(in);\n        return ois.readObject();\n    }\n}\n"
+ },
+ {
+  "id": "java-v05",
+  "language": "java",
+  "label": "vulnerable",
+  "expected": [
+   "command-injection"
+  ],
+  "note": "Runtime.exec with concatenation",
+  "code": "public class Runner {\n    public void run(String file) throws IOException {\n        Runtime.getRuntime().exec(\"convert \" + file + \" out.png\");\n    }\n}\n"
+ },
+ {
+  "id": "java-c01",
+  "language": "java",
+  "label": "clean",
+  "expected": [],
+  "note": "PreparedStatement",
+  "code": "public class UserDao {\n    public ResultSet find(Connection c, String name) throws SQLException {\n        PreparedStatement ps = c.prepareStatement(\"SELECT * FROM users WHERE name = ?\");\n        ps.setString(1, name);\n        return ps.executeQuery();\n    }\n}\n"
+ },
+ {
+  "id": "java-c02",
+  "language": "java",
+  "label": "clean",
+  "expected": [],
+  "note": "secret from environment",
+  "code": "public class Config {\n    private static final String PASSWORD = System.getenv(\"APP_PASSWORD\");\n}\n"
+ },
+ {
+  "id": "java-c03",
+  "language": "java",
+  "label": "clean",
+  "expected": [],
+  "note": "SHA-256",
+  "code": "public class Hasher {\n    public byte[] hash(byte[] in) throws Exception {\n        return MessageDigest.getInstance(\"SHA-256\").digest(in);\n    }\n}\n"
+ },
+ {
+  "id": "java-c04",
+  "language": "java",
+  "label": "clean",
+  "expected": [],
+  "note": "ProcessBuilder with argument list",
+  "code": "public class Runner {\n    public void run(String file) throws IOException {\n        new ProcessBuilder(List.of(\"convert\", file, \"out.png\")).start();\n    }\n}\n"
+ },
+ {
+  "id": "go-v01",
+  "language": "go",
+  "label": "vulnerable",
+  "expected": [
+   "sql-injection"
+  ],
+  "note": "concatenated SQL",
+  "code": "func findUser(db *sql.DB, name string) (*sql.Rows, error) {\n\treturn db.Query(\"SELECT * FROM users WHERE name = '\" + name + \"'\")\n}\n"
+ },
+ {
+  "id": "go-v02",
+  "language": "go",
+  "label": "vulnerable",
+  "expected": [
+   "ignored-error"
+  ],
+  "note": "error value discarded",
+  "code": "func port(s string) int {\n\tn, _ := strconv.Atoi(s)\n\treturn n\n}\n"
+ },
+ {
+  "id": "go-v03",
+  "language": "go",
+  "label": "vulnerable",
+  "expected": [
+   "weak-hash"
+  ],
+  "note": "md5.Sum",
+  "code": "func sum(b []byte) [16]byte {\n\treturn md5.Sum(b)\n}\n"
+ },
+ {
+  "id": "go-c01",
+  "language": "go",
+  "label": "clean",
+  "expected": [],
+  "note": "parameterised query",
+  "code": "func findUser(db *sql.DB, name string) (*sql.Rows, error) {\n\treturn db.Query(\"SELECT * FROM users WHERE name = $1\", name)\n}\n"
+ },
+ {
+  "id": "go-c02",
+  "language": "go",
+  "label": "clean",
+  "expected": [],
+  "note": "error handled",
+  "code": "func port(s string) (int, error) {\n\tn, err := strconv.Atoi(s)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\treturn n, nil\n}\n"
+ },
+ {
+  "id": "cpp-v01",
+  "language": "cpp",
+  "label": "vulnerable",
+  "expected": [
+   "buffer-overflow"
+  ],
+  "note": "gets()",
+  "code": "#include <stdio.h>\n\nint main() {\n    char name[16];\n    gets(name);\n    printf(\"%s\\n\", name);\n    return 0;\n}\n"
+ },
+ {
+  "id": "cpp-v02",
+  "language": "cpp",
+  "label": "vulnerable",
+  "expected": [
+   "buffer-overflow"
+  ],
+  "note": "unbounded strcpy",
+  "code": "#include <string.h>\n\nvoid copy(const char *src) {\n    char buf[8];\n    strcpy(buf, src);\n}\n"
+ },
+ {
+  "id": "cpp-v03",
+  "language": "cpp",
+  "label": "vulnerable",
+  "expected": [
+   "buffer-overflow"
+  ],
+  "note": "sprintf into caller buffer",
+  "code": "#include <stdio.h>\n\nvoid label(int id, char *out) {\n    sprintf(out, \"item-%d\", id);\n}\n"
+ },
+ {
+  "id": "cpp-c01",
+  "language": "cpp",
+  "label": "clean",
+  "expected": [],
+  "note": "fgets",
+  "code": "#include <stdio.h>\n\nint main() {\n    char name[16];\n    if (fgets(name, sizeof name, stdin)) {\n        printf(\"%s\", name);\n    }\n    return 0;\n}\n"
+ },
+ {
+  "id": "cpp-c02",
+  "language": "cpp",
+  "label": "clean",
+  "expected": [],
+  "note": "bounded strncpy",
+  "code": "#include <string.h>\n\nvoid copy(const char *src) {\n    char buf[8];\n    strncpy(buf, src, sizeof buf - 1);\n    buf[sizeof buf - 1] = '\\0';\n}\n"
+ },
+ {
+  "id": "cpp-c03",
+  "language": "cpp",
+  "label": "clean",
+  "expected": [],
+  "note": "snprintf",
+  "code": "#include <cstdio>\n\nvoid label(int id, char *out, size_t n) {\n    snprintf(out, n, \"item-%d\", id);\n}\n"
+ }
+]

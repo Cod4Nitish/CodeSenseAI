@@ -40,3 +40,13 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# ── Local databases ──────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+
+# Local tooling / deploy state
+.playwright-mcp/
+.antideploy.json
+.vercel/

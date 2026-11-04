@@ -1,0 +1,53 @@
+/* Landing-specific styles (shared styles live in pages/site/site.css). */
+.lp-hero-grid { display: grid; gap: 32px; align-items: center; }
+.lp-demo { display: grid; gap: 12px; min-width: 0; }
+.lp-code { padding: 4px 0; }
+.lp-ln { padding: 0 6px; border-radius: 4px; transition: background .2s; }
+.lp-ln.scanning { background: color-mix(in srgb, var(--st-accent) 22%, transparent); }
+.lp-side { display: grid; gap: 10px; grid-template-columns: auto 1fr; align-items: start; }
+.lp-gauge { position: relative; width: 96px; height: 96px; }
+.lp-gnum { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font-weight: 800; font-size: 22px; color: var(--st-bright); line-height: 1; }
+.lp-gnum small { font-size: 10px; color: var(--st-muted); font-weight: 600; margin-top: 2px; }
+.lp-cards { display: grid; gap: 6px; min-height: 130px; align-content: start; min-width: 0; }
+.lp-pop { animation: lp-pop .35s cubic-bezier(.22,1,.36,1); }
+@keyframes lp-pop { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+.lp-path { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.lp-path p { flex: 1; }
+.lp-prob { border-left: 3px solid var(--st-err); }
+.lp-sol { border-left: 3px solid var(--st-ok); }
+.lp-bento { display: grid; gap: 14px; grid-template-columns: 1fr; }
+.lp-faq { display: grid; gap: 10px; max-width: 760px; }
+.lp-faq details { background: var(--st-surface); border: 1px solid var(--st-border); border-radius: 12px; padding: 4px 16px; }
+.lp-faq summary { cursor: pointer; padding: 12px 0; font-weight: 600; color: var(--st-bright); min-height: 44px; }
+.lp-faq p { color: var(--st-muted); padding-bottom: 14px; }
+@media (min-width: 640px) { .lp-bento { grid-template-columns: repeat(2, 1fr); } .lp-bento .wide { grid-column: span 2; } }
+@media (min-width: 900px) {
+  .lp-hero-grid { grid-template-columns: 1.05fr 1fr; gap: 48px; }
+  .lp-bento { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── Landing v2: fewer words, real screenshots ── */
+.lp-note { margin-top: 12px; font-size: 13px; color: var(--st-muted); }
+.lp-shots { display: grid; gap: 28px; grid-template-columns: 1fr; margin-top: 8px; }
+.lp-shot { margin: 0; display: grid; gap: 12px; }
+.lp-frame { border: 2px solid var(--st-border); border-radius: 12px; overflow: hidden; background: var(--st-surface); box-shadow: 6px 6px 0 var(--st-accent); }
+.lp-frame-bar { display: flex; gap: 6px; padding: 8px 12px; border-bottom: 2px solid var(--st-border); background: var(--st-surface); }
+.lp-frame-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--st-border); display: block; }
+.lp-frame img { display: block; width: 100%; height: auto; }
+.lp-shot figcaption { display: flex; flex-direction: column; gap: 2px; padding-left: 4px; }
+.lp-shot figcaption b { font-size: 18px; color: var(--st-bright); }
+.lp-shot figcaption span { color: var(--st-muted); font-size: 14.5px; }
+.lp-feats { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); list-style: none; padding: 0; margin: 0; }
+.lp-feats li { display: flex; flex-direction: column; gap: 4px; padding: 20px 18px; border: 2px solid var(--st-border); border-radius: 12px; background: var(--st-surface); }
+.lp-feats b { color: var(--st-bright); font-size: 16px; }
+.lp-feats li span:last-child { color: var(--st-muted); font-size: 14px; }
+.lp-ic { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; background: var(--st-accent); color: var(--st-on-accent, #05051a); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.lp-steps { display: grid; gap: 14px; grid-template-columns: 1fr; list-style: none; padding: 0; margin: 0; }
+.lp-steps li { display: flex; align-items: center; gap: 14px; padding: 18px; border: 2px solid var(--st-border); border-radius: 12px; background: var(--st-surface); }
+.lp-steps b { color: var(--st-bright); font-size: 18px; }
+.lp-steps li span:last-child { color: var(--st-muted); }
+.lp-n { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--st-accent); color: var(--st-on-accent, #05051a); font-weight: 800; }
+@media (min-width: 720px) { .lp-feats { grid-template-columns: repeat(3, 1fr); } .lp-steps { grid-template-columns: repeat(3, 1fr); } .lp-steps li { flex-direction: column; align-items: flex-start; } }
+@media (min-width: 900px) { .lp-shots { grid-template-columns: 1fr 1fr; gap: 36px 32px; } .lp-shots .lp-shot:nth-child(3) { grid-column: 1 / -1; width: min(100%, 560px); justify-self: center; } }
+.lp-shot { align-content: start; align-self: start; }
+.lp-frame { align-self: start; }

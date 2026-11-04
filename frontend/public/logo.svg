@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CodeSense AI">
+  <defs>
+    <pattern id="d" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="#7b87ff" opacity=".55"/></pattern>
+    <linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>
+    <mask id="m"><rect x="3" y="3" width="54" height="54" rx="12" fill="url(#f)"/></mask>
+  </defs>
+  <rect x="7" y="7" width="54" height="54" rx="12" fill="#ff8ad8"/>
+  <rect x="3" y="3" width="54" height="54" rx="12" fill="#0a0a12"/>
+  <rect x="3" y="3" width="54" height="54" rx="12" fill="url(#d)" mask="url(#m)"/>
+  <rect x="3" y="3" width="54" height="54" rx="12" fill="none" stroke="#7b87ff" stroke-width="2.5"/>
+  <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M24 19 14 30 24 41" stroke="#ececf5" stroke-width="4.5"/>
+    <path d="M36 19 46 30 36 41" stroke="#ececf5" stroke-width="4.5"/>
+    <path d="M26.5 31 29.8 34.5 34.5 26" stroke="#ff8ad8" stroke-width="3.8"/>
+  </g>
+</svg>

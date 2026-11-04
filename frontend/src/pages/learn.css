@@ -1,0 +1,63 @@
+/* Learn page (/learn) - uses only theme variables. by Nitish Kumar Singh */
+.lc-page { padding: 18px 14px 40px; }
+.lc-wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 14px; }
+.lc-hero { display: grid; gap: 8px; justify-items: start; padding: 14px; border-radius: var(--r-lg); background: var(--bg-surface); border: 1px solid var(--border-mid); }
+.lc-title { font-size: clamp(22px, 6vw, 30px); line-height: 1.15; color: var(--text-bright); }
+.lc-hero p { color: var(--text-muted); font-size: 14px; }
+.lc-seg { display: inline-flex; border: 1px solid var(--border-hi); border-radius: var(--r-md); overflow: hidden; }
+.lc-seg button { background: transparent; color: var(--text); border: 0; padding: 0 16px; font: inherit; font-weight: 600; cursor: pointer; }
+.lc-seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-solid); }
+.lc-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; position: sticky; top: 0; z-index: 5; padding: 6px 0; background: var(--bg-base); }
+.lc-tabs button { border: 1px solid var(--border-mid); background: var(--bg-surface); color: var(--text-muted); border-radius: var(--r-md); font: inherit; font-weight: 700; cursor: pointer; }
+.lc-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-solid); border-color: var(--accent); }
+.lc-stack { display: grid; gap: 12px; }
+.lc-card { display: grid; gap: 10px; padding: 14px; background: var(--bg-surface); border: 1px solid var(--border-mid); border-radius: var(--r-lg); box-shadow: var(--shadow-card); min-width: 0; }
+.lc-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
+.lc-select, .lc-textarea { width: 100%; background: var(--bg-input); color: var(--text); border: 1px solid var(--border-hi); border-radius: var(--r-md); padding: 8px 12px; font: inherit; }
+.lc-textarea { font-family: var(--font-mono); font-size: 13px; line-height: 1.55; resize: vertical; min-height: 150px; tab-size: 4; white-space: pre; overflow: auto; }
+.lc-select:focus, .lc-textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.lc-wide { width: 100%; justify-content: center; }
+.lc-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.lc-chips .lc-label { width: 100%; }
+.lc-chip { border: 1px solid var(--border-hi); background: var(--bg-input); color: var(--text); border-radius: 999px; padding: 0 14px; font: inherit; font-weight: 600; cursor: pointer; }
+.lc-chip.on { background: var(--accent); color: var(--on-solid); border-color: var(--accent); }
+.lc-score { display: flex; gap: 18px; color: var(--text-muted); font-size: 13px; }
+.lc-score b { color: var(--text-bright); font-size: 16px; }
+.lc-issue header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.lc-issue h3 { font-size: 16px; color: var(--text-bright); }
+.lc-issue.sev-high { border-left: 5px solid var(--error); }
+.lc-issue.sev-medium { border-left: 5px solid var(--warn); }
+.lc-issue.sev-low { border-left: 5px solid var(--ok); }
+.lc-line { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+.lc-good { border-color: var(--ok-border); background: var(--ok-glow); color: var(--text); }
+.lc-q { font-size: 16px; color: var(--text-bright); }
+.lc-code { margin: 0; overflow-x: auto; background: var(--bg-input); border: 1px solid var(--border-mid); border-radius: var(--r-md); padding: 10px 0; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; color: var(--text-code); }
+.lc-codeline { display: block; padding-right: 12px; white-space: pre; }
+.lc-codeline .ln { display: inline-block; width: 34px; text-align: right; margin-right: 12px; color: var(--text-dim); user-select: none; }
+.lc-codeline.bug { background: var(--error-dim); box-shadow: inset 3px 0 0 var(--error); }
+.lc-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.lc-opt { border: 2px solid var(--border-hi); background: var(--bg-input); color: var(--text-bright); border-radius: var(--r-md); font: inherit; font-weight: 700; cursor: pointer; font-family: var(--font-mono); }
+.lc-opt:disabled { cursor: default; }
+.lc-opt.right { border-color: var(--ok); background: var(--ok-dim); color: var(--ok); }
+.lc-opt.wrong { border-color: var(--error); background: var(--error-dim); color: var(--error); }
+.lc-opt.dim { opacity: .55; }
+.lc-reveal { display: grid; gap: 8px; padding: 12px; border-radius: var(--r-md); border: 1px solid; }
+.lc-reveal.ok { border-color: var(--ok-border); background: var(--ok-glow); }
+.lc-reveal.bad { border-color: var(--error-border); background: var(--error-glow); }
+.lc-reveal strong { color: var(--text-bright); }
+.lc-reveal p { font-size: 14px; color: var(--text); }
+.lc-fix { margin: 0; overflow-x: auto; background: var(--bg-input); border: 1px solid var(--border-mid); border-radius: var(--r-md); padding: 10px 12px; font-family: var(--font-mono); font-size: 12.5px; color: var(--text-code); }
+.lc-tip-text { font-size: 17px; line-height: 1.55; color: var(--text-bright); }
+.lc-tip .lc-chip { justify-self: start; }
+.lc-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin: 0; }
+.lc-stats div { padding: 10px; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--r-md); }
+.lc-stats dt { font-size: 11px; color: var(--text-muted); }
+.lc-stats dd { margin: 0; font-size: 24px; font-weight: 800; color: var(--text-bright); font-family: var(--font-head); }
+.lc-chart { width: 100%; max-width: 360px; height: auto; }
+.lc-chart .bar { fill: var(--border-hi); }
+.lc-chart .bar.on { fill: var(--accent); }
+.lc-chart .bar-lbl { fill: var(--text-muted); font-size: 9px; font-family: var(--font-mono); }
+.lc-confirm { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--text); }
+.lc-note { font-size: 12px; color: var(--text-muted); }
+.lc-error { margin: 0; }
+@media (min-width: 720px) { .lc-opts { grid-template-columns: repeat(4, 1fr); } }
