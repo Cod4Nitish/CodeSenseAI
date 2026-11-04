@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { useSettings } from "../lib/theme";
+import { isStandalone, openInstall, useInstall } from "../lib/install";
 
 function initials(name = "", email = "") {
   const src = (name || email).trim();
@@ -113,9 +114,22 @@ function ThemeToggle() {
     try { dark = !window.matchMedia("(prefers-color-scheme: light)").matches; } catch { dark = true; }
   }
   return (
-    <button type="button" className="tb-icon-btn" onClick={() => update({ theme: dark ? "light" : "dark" })}
+    <button type="button" className="tb-icon-btn tb-theme" onClick={() => update({ theme: dark ? "light" : "dark" })}
       aria-label={dark ? "Switch to light theme" : "Switch to dark theme"} title={dark ? "Light theme" : "Dark theme"}>
       {dark ? MODES[0][2] : MODES[1][2]}
+    </button>
+  );
+}
+
+function InstallButton() {
+  const { installed } = useInstall();
+  if (installed) return null;
+  return (
+    <button type="button" className="tb-install" onClick={openInstall} title="Install CodeSense AI on Windows, Android, iPhone or Mac">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14" />
+      </svg>
+      <span>Install</span>
     </button>
   );
 }
@@ -184,6 +198,7 @@ function SettingsMenu() {
               <option value="chill">Chill</option><option value="assertive">Assertive</option>
             </select>
           </label>
+          <button type="button" className="btn btn-ghost set-reset" onClick={() => { setOpen(false); openInstall(); }}>Install app (Windows, Android, iPhone, Mac)</button>
           <button type="button" className="btn btn-ghost set-reset" onClick={reset}>Reset to defaults</button>
           <div className="tb-menu-sep" />
           <div className="about">
@@ -208,7 +223,7 @@ export default function TopBar() {
   return (
     <header className="tb">
       <div className="tb-left">
-        <Link to="/" className="tb-brand" aria-label="CodeSense AI - home" title="Back to home">
+        <Link to={isStandalone() ? "/app" : "/"} className="tb-brand" aria-label="CodeSense AI" title={isStandalone() ? "Workspace" : "Back to home"}>
           <img className="tb-brand-logo" src="/favicon.svg" alt="" width="32" height="32" />
           <span className="tb-brand-name">CodeSense AI</span>
         </Link>
@@ -221,6 +236,7 @@ export default function TopBar() {
       </div>
 
       <div className="tb-right">
+        <InstallButton />
         <ThemeToggle />
         <SettingsMenu />
         <UserMenu />

@@ -1,6 +1,7 @@
 /** Light marketing sub-nav shared by /welcome, /product, /about. */
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { openInstall, useInstall } from "../../lib/install";
 
 const LINKS = [
   ["/", "Home"],
@@ -11,6 +12,7 @@ const LINKS = [
 
 export default function SiteNav() {
   const [open, setOpen] = useState(false);
+  const { installed } = useInstall();
   const cls = ({ isActive }) => `sn-link${isActive ? " active" : ""}`;
   return (
     <header className="sn">
@@ -20,7 +22,8 @@ export default function SiteNav() {
           {LINKS.map(([to, label]) => (
             <NavLink key={to} to={to} end={to === "/"} className={cls}>{label}</NavLink>
           ))}
-          <Link to="/app" className="stb primary sm" style={{ marginLeft: 8 }}>Open app</Link>
+          {!installed && <button type="button" className="stb sm" style={{ marginLeft: 8 }} onClick={openInstall}>Install</button>}
+          <Link to="/app" className="stb primary sm" style={{ marginLeft: 8 }}>{installed ? "Continue" : "Review code"}</Link>
         </div>
         <button
           type="button" className="sn-burger" aria-expanded={open} aria-controls="sn-menu"
@@ -35,7 +38,8 @@ export default function SiteNav() {
         {LINKS.map(([to, label]) => (
           <NavLink key={to} to={to} end={to === "/"} className={cls} onClick={() => setOpen(false)}>{label}</NavLink>
         ))}
-        <Link to="/app" className="stb primary" onClick={() => setOpen(false)}>Open app</Link>
+        {!installed && <button type="button" className="stb" onClick={() => { setOpen(false); openInstall(); }}>Install app</button>}
+        <Link to="/app" className="stb primary" onClick={() => setOpen(false)}>{installed ? "Continue" : "Start reviewing"}</Link>
       </div>
     </header>
   );

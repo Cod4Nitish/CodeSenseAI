@@ -75,7 +75,7 @@ class Settings(BaseSettings):
     gemini_api_key: str | None = None
     gemini_model: str = "gemini-3.1-flash-lite"
     gemini_fallback_model: str = "gemini-3.5-flash-lite"
-    gemini_timeout_s: float = 45.0
+    gemini_timeout_s: float = 20.0
 
     @field_validator("cors_origins", mode="before")
     @classmethod

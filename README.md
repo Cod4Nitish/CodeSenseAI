@@ -57,7 +57,9 @@ senior to ask** and for **developers who want a fast second pair of eyes**.
 | 🎓 | **Learn mode** | Plain-language help and find-the-bug quizzes |
 | 💬 | **Ask AI** | Chat about your code, explain it, generate unit tests |
 | 📈 | **Dashboard** | Sign in (or use the guest account) to keep history, charts and score trends |
-| 📱 | **Works on phones** | Touch editor, installable as an app (PWA) |
+| ⏳ | **Learn while you wait** | The loading screen shows live progress and rotating mini lessons: what a bug is, how it happens, risky vs safer code (English or Hinglish) |
+| 📲 | **Install as an app** | One **Install** button detects Windows, Android, iPhone or Mac and shows the right steps (or the native one-tap prompt). The installed phone app gets its own tab bar, Code/Results switch and a soft, tactile look |
+| 📱 | **Works on phones** | Touch editor, offline-friendly service worker, full icon set for Android and iOS |
 | 🎨 | **Dithered Lo-fi theme** | Dark and light, designed to stay readable |
 
 ## 📸 Screenshots
@@ -167,6 +169,7 @@ docker run -p 8080:8080 -e GEMINI_API_KEY=your_key -e SECRET_KEY=$(python -c "im
 | `DATABASE_URL` | no | local SQLite file | Use a Postgres URL in production |
 | `ENVIRONMENT` | no | `development` | Set `production` when deployed |
 | `GEMINI_MODEL` / `GEMINI_FALLBACK_MODEL` | no | `gemini-3.1-flash-lite` / `gemini-3.5-flash-lite` | |
+| `GEMINI_TIMEOUT_S` | no | `20` | A slow Gemini call is cut at this limit and retried once |
 | `RATE_LIMIT_ENABLED` | no | `true` | Limits analyze requests per minute |
 | `DEMO_EMAIL` / `DEMO_PASSWORD` | no | none | Enables the one-click guest login |
 | `VITE_API_URL` | no | `http://localhost:8000` | Frontend only, used for local dev |

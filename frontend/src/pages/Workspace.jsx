@@ -121,6 +121,7 @@ export default function Workspace() {
   mobileRef.current = isMobile;
   const [textMarkers, setTextMarkers] = useState([]);
   const [flash, setFlash] = useState(null);
+  const [mobilePane, setMobilePane] = useState("code"); // used only in installed-app mode on phones
   const editorPaneRef = useRef(null);
   const resultsPaneRef = useRef(null);
 
@@ -216,6 +217,7 @@ export default function Workspace() {
     let analysisResult = null;
     inFlightRef.current = true;
     setLoading(true);
+    setMobilePane("results"); // phone app mode: show the live progress + lessons straight away
     setError(null);
     setResults(null);
     setSourceLabel(null);
@@ -227,6 +229,7 @@ export default function Workspace() {
     try {
       const data = await analyzeCode(src, lang, { persist: isAuthed });
       setResults(data);
+      setMobilePane("results");
       setAnalyzedCode(src);
       setScanCount((c) => c + 1);
       applyMarkers(data.issues);
@@ -234,6 +237,7 @@ export default function Workspace() {
       if (mobileRef.current) window.setTimeout(() => resultsPaneRef.current?.scrollIntoView?.({ block: "start", behavior: "smooth" }), 120);
     } catch (err) {
       setError(err.message || "Unknown error occurred.");
+      setMobilePane("results");
     } finally {
       inFlightRef.current = false;
       setLoading(false);
@@ -502,6 +506,7 @@ export default function Workspace() {
     if (mobileRef.current) {
       if (!lineNum) return;
       setFlash({ line: lineNum, severity, key: Date.now() });
+      setMobilePane("code");
       editorPaneRef.current?.scrollIntoView?.({ block: "start", behavior: "smooth" });
       window.setTimeout(() => setFlash(null), 3000);
       return;
@@ -573,7 +578,13 @@ export default function Workspace() {
   return (
     <>
       <div className="workspace">
-        <main className="main-layout">
+        <div className="pane-switch" role="tablist" aria-label="Show code or results">
+          <button type="button" role="tab" aria-selected={mobilePane === "code"} className={mobilePane === "code" ? "on" : ""} onClick={() => setMobilePane("code")}>Code</button>
+          <button type="button" role="tab" aria-selected={mobilePane === "results"} className={mobilePane === "results" ? "on" : ""} onClick={() => setMobilePane("results")}>
+            Results{results?.issue_count ? <i className="pane-pill">{results.issue_count.high + results.issue_count.medium + results.issue_count.low}</i> : null}
+          </button>
+        </div>
+        <main className="main-layout" data-pane={mobilePane}>
           <section
             ref={editorPaneRef}
             className={`editor-pane ${dragging ? "is-dragging" : ""}`}

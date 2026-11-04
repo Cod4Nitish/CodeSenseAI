@@ -26,6 +26,8 @@ import DebugCrash from "./pages/errors/DebugCrash";
 import RouteErrorBoundary from "./components/errors/ErrorBoundary";
 import OfflineBanner from "./components/errors/OfflineBanner";
 import { Toaster } from "./components/auth/AuthForms";
+import InstallDialog from "./components/InstallDialog";
+import BottomNav from "./components/BottomNav";
 
 export default function App() {
   return (
@@ -51,6 +53,8 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Toaster />
+          <BottomNav />
+          <InstallDialog />
         </div>
       </AuthProvider>
       </RouteErrorBoundary>

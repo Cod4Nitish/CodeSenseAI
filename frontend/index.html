@@ -9,6 +9,10 @@
     <meta name="theme-color" content="#0a0a12" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/icons/apple-touch-icon-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="CodeSense" />
@@ -36,6 +40,18 @@
         var t = typeof P[pal] === "string" ? P[pal]
           : (st.theme === "light" ? "light" : st.theme === "system" ? (light ? "light" : "dark") : "dark");
         var r = document.documentElement;
+        // App mode (data-app=standalone): installed app, or any touch phone. Phones in a browser get the same app layout.
+        try {
+          var applyApp = function () {
+            var installed = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            var phone = window.matchMedia('(max-width: 820px)').matches && window.matchMedia('(pointer: coarse)').matches;
+            if (installed || phone) r.setAttribute('data-app', 'standalone'); else r.removeAttribute('data-app');
+          };
+          applyApp();
+          ['(display-mode: standalone)', '(max-width: 820px)', '(pointer: coarse)'].forEach(function (q) {
+            var m = window.matchMedia(q); if (m.addEventListener) m.addEventListener('change', applyApp);
+          });
+        } catch (e) {}
         r.setAttribute("data-palette", pal);
         r.setAttribute("data-theme", t);
         r.setAttribute("data-mode", t);
@@ -56,7 +72,9 @@
 
     <!-- Favicon: < ✓ > mark, dithered-lofi -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
   </head>
   <body>
     <div id="root"></div>

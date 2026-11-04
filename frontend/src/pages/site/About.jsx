@@ -145,7 +145,7 @@ export default function About() {
           <div className="st-card" data-reveal><h3>Future scope</h3><ul style={{ marginTop: 8, display: "grid", gap: 6, color: "var(--st-muted)" }}>{FUTURE.map((l) => <li key={l}>- {l}</li>)}</ul></div>
         </div>
         <div className="stb-row" style={{ marginTop: 28 }}>
-          <Link to="/app" className="stb primary">Open the app</Link>
+          <Link to="/app" className="stb primary">Start reviewing</Link>
           <Link to="/product" className="stb">Product tour</Link>
           <Link to="/learn" className="stb">Learn mode</Link>
         </div>

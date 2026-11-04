@@ -205,7 +205,7 @@ export default function Product() {
           <h1 id="ov-h">Every part of <span className="st-grad">CodeSense AI</span>, in one scroll</h1>
           <p className="st-lead">Paste code or a pull-request diff and get a scored, line-accurate review that combines an AI model with a deterministic rule engine. Beginners get explanations and quizzes. Developers get a workspace and PR review.</p>
           <div className="stb-row" style={{ marginTop: 22 }}>
-            <Link to="/app" className="stb primary">Open Workspace</Link>
+            <Link to="/app" className="stb primary">Start reviewing</Link>
             <Link to="/pr" className="stb">PR Review</Link>
             <Link to="/learn" className="stb">Learn mode</Link>
           </div>
@@ -231,7 +231,7 @@ export default function Product() {
           <p className="st-p" style={{ marginTop: 0 }}>The Monaco editor underlines problems with squiggles on the exact line. Each issue card explains the problem, shows a suggested fix and carries CWE and OWASP tags where they apply.</p>
           <p className="st-p">Every finding shows its source: <span className="st-tag ac">AI</span> <span className="st-tag ok">Rules</span> or <span className="st-tag md">AI + Rules</span> when both agree.</p>
           <p className="st-p">Quality score = <code style={{ fontFamily: "var(--st-mono)", color: "var(--st-bright)" }}>10 - 2.5*high - 0.8*medium - 0.2*low</code>, clamped to 0 to 10, then mapped to a letter grade.</p>
-          <div className="stb-row" style={{ marginTop: 16 }}><Link to="/app" className="stb primary sm">Open Workspace</Link></div>
+          <div className="stb-row" style={{ marginTop: 16 }}><Link to="/app" className="stb primary sm">Start reviewing</Link></div>
         </>}><MockWorkspace /></Split>
       </Sec>
 
@@ -247,7 +247,7 @@ export default function Product() {
         <Split text={<>
           <p className="st-p" style={{ marginTop: 0 }}>Chat about your code and its findings. Auto-fix proposes a change and shows it as a diff before you apply it.</p>
           <p className="st-p">Explain turns unfamiliar code into plain language, and Generate tests produces starter unit tests for the code under review. The AI key stays on the server.</p>
-          <div className="stb-row" style={{ marginTop: 16 }}><Link to="/app" className="stb primary sm">Open Workspace</Link></div>
+          <div className="stb-row" style={{ marginTop: 16 }}><Link to="/app" className="stb primary sm">Start reviewing</Link></div>
         </>}><MockChat /></Split>
       </Sec>
 
@@ -270,7 +270,7 @@ export default function Product() {
       <Sec id="pwa" eyebrow="Install" title="Works on desktop and phone">
         <Split text={<>
           <p className="st-p" style={{ marginTop: 0 }}>CodeSense AI is a responsive web app that can be installed as a PWA from your browser, so it opens like a native app on desktop or phone.</p>
-          <div className="stb-row" style={{ marginTop: 16 }}><Link to="/app" className="stb primary sm">Open the app</Link></div>
+          <div className="stb-row" style={{ marginTop: 16 }}><Link to="/app" className="stb primary sm">Start reviewing</Link></div>
         </>}><MockPWA /></Split>
       </Sec>
 
@@ -312,7 +312,7 @@ export default function Product() {
         <div className="st-wrap" data-reveal style={{ textAlign: "center" }}>
           <h2 id="cta-h">Ready to try it on your own code?</h2>
           <div className="stb-row" style={{ justifyContent: "center", marginTop: 20 }}>
-            <Link to="/app" className="stb primary">Open Workspace</Link>
+            <Link to="/app" className="stb primary">Start reviewing</Link>
             <Link to="/pr?demo=1" className="stb">PR Review sample</Link>
             <Link to="/learn" className="stb">Learn mode</Link>
           </div>

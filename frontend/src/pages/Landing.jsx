@@ -122,7 +122,7 @@ const STEPS = [
 ];
 
 const FAQ = [
-  ["Do I need an account?", "No. Open the app and paste code. Sign in only if you want to save your history."],
+  ["Do I need an account?", "No. Just paste your code. Sign in only if you want to save your history."],
   ["Which languages work?", "Python, JavaScript, TypeScript, Java, C++ and Go."],
   ["Can AI be wrong?", "Yes. Treat it as a fast first pass and check the findings."],
 ];
@@ -149,7 +149,7 @@ export default function Landing() {
             <h1 id="hero-h">Catch bugs <span className="st-grad">before they ship</span></h1>
             <p className="st-lead">Paste code. Get a score, simple explanations and one-click fixes.</p>
             <div className="stb-row" style={{ marginTop: 24 }}>
-              <Link to="/app" className="stb primary">Open the app</Link>
+              <Link to="/app" className="stb primary">Start reviewing</Link>
               <Link to="/learn" className="stb">I'm a beginner</Link>
             </div>
             <p className="lp-note">No sign-up needed.</p>
@@ -199,7 +199,7 @@ export default function Landing() {
             <div className="st-card lp-path" data-reveal>
               <h3>Reviewing real code?</h3>
               <p>Editor, scored reports and pull-request review.</p>
-              <div className="stb-row"><Link to="/app" className="stb primary">Open the app</Link><Link to="/pr?demo=1" className="stb">Try PR review</Link></div>
+              <div className="stb-row"><Link to="/app" className="stb primary">Start reviewing</Link><Link to="/pr?demo=1" className="stb">Try PR review</Link></div>
             </div>
           </div>
         </div>
@@ -218,7 +218,7 @@ export default function Landing() {
         <div className="st-wrap" style={{ textAlign: "center" }} data-reveal>
           <h2 id="cta-h">Review your first file in a minute</h2>
           <div className="stb-row" style={{ justifyContent: "center", marginTop: 20 }}>
-            <Link to="/app" className="stb primary">Open the app</Link>
+            <Link to="/app" className="stb primary">Review my first file</Link>
             <Link to="/about" className="stb">About the project</Link>
           </div>
         </div>

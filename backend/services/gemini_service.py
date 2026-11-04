@@ -13,6 +13,7 @@ import os
 import re
 import json
 import asyncio
+import itertools
 import logging
 from typing import Any
 
@@ -24,20 +25,30 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Client initialisation — key loaded from environment (never hardcoded)
 # ---------------------------------------------------------------------------
-_api_key = os.getenv("GEMINI_API_KEY")
-if not _api_key:
+# One key is enough. Extra keys (GEMINI_API_KEYS=key2,key3) add capacity and speed: calls are spread across
+# keys, and a slow or rate-limited call is raced against the next key ("hedged request").
+_keys: list[str] = []
+for _k in [os.getenv("GEMINI_API_KEY", ""), *re.split(r"[,\s]+", os.getenv("GEMINI_API_KEYS", ""))]:
+    _k = _k.strip().strip('"')
+    if _k and _k not in _keys:
+        _keys.append(_k)
+if not _keys:
     raise RuntimeError(
         "GEMINI_API_KEY environment variable is not set. "
         "Create a backend/.env file and add your key."
     )
 
-_client = genai.Client(api_key=_api_key)
+_clients = [genai.Client(api_key=k) for k in _keys]
+_client = _clients[0]
+_rr = itertools.count()
+logger.info("Gemini: %d API key(s) configured", len(_clients))
 
 # Primary model is overridable via env; a stable fallback covers the case where
 # the primary name is not available for a given key / region.
 _PRIMARY_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite").strip()
 _FALLBACK_MODEL = os.getenv("GEMINI_FALLBACK_MODEL", "gemini-3.5-flash-lite").strip()
-_REQUEST_TIMEOUT_S = float(os.getenv("GEMINI_TIMEOUT_S", "45"))
+_REQUEST_TIMEOUT_S = float(os.getenv("GEMINI_TIMEOUT_S", "20"))
+_HEDGE_S = float(os.getenv("GEMINI_HEDGE_S", "7"))  # start the next key if the first has not answered by then
 
 # Remembered once a model has served a successful request.
 _resolved_model: str | None = None
@@ -212,10 +223,10 @@ def _build_user_prompt(code: str, language: str) -> str:
     )
 
 
-async def _call_model(model: str, user_prompt: str, system_prompt: str | None = None) -> str:
+async def _call_model(model: str, user_prompt: str, system_prompt: str | None = None, client: Any = None) -> str:
     """One async Gemini call. Returns raw text or raises."""
     response = await asyncio.wait_for(
-        _client.aio.models.generate_content(
+        (client or _client).aio.models.generate_content(
             model=model,
             contents=user_prompt,
             config=types.GenerateContentConfig(
@@ -245,6 +256,54 @@ async def _call_model(model: str, user_prompt: str, system_prompt: str | None = 
             f"Gemini returned an empty response{f' (finish_reason={reason})' if reason else ''}."
         )
     return text
+
+
+async def _call_hedged(model: str, user_prompt: str, system_prompt: str | None = None) -> str:
+    """Call Gemini using every configured key as a safety net.
+
+    Start on the next key in rotation. If it fails (429, error, timeout) go straight to the next key;
+    if it is merely slow, race the next key after _HEDGE_S. First good answer wins, the rest are cancelled.
+    With a single key this is a plain call.
+    """
+    n = len(_clients)
+    if n == 1:
+        return await _call_model(model, user_prompt, system_prompt, _clients[0])
+    start = next(_rr) % n
+    order = [_clients[(start + i) % n] for i in range(n)]
+    pending: set[asyncio.Task] = set()
+    errors: list[BaseException] = []
+    launched = 0
+
+    def launch() -> None:
+        nonlocal launched
+        pending.add(asyncio.ensure_future(_call_model(model, user_prompt, system_prompt, order[launched])))
+        launched += 1
+
+    launch()
+    try:
+        while pending or launched < n:
+            if not pending:
+                launch()
+            can_launch = launched < n
+            done, still = await asyncio.wait(
+                pending, timeout=_HEDGE_S if can_launch else None, return_when=asyncio.FIRST_COMPLETED
+            )
+            pending.clear()
+            pending.update(still)
+            for t in done:
+                try:
+                    result = t.result()
+                except BaseException as e:  # noqa: BLE001 - collected, the next key may still succeed
+                    errors.append(e)
+                    continue
+                return result
+            if can_launch:
+                logger.info("Gemini: trying key %d/%d (slow or failed first attempt)", launched + 1, n)
+                launch()
+    finally:
+        for t in pending:
+            t.cancel()
+    raise errors[0] if errors else ValueError("Gemini did not return a response.")
 
 
 # ---------------------------------------------------------------------------
@@ -282,14 +341,18 @@ async def generate_json(
     for model in candidates:
         try:
             try:
-                raw_text = await _call_model(model, user_prompt, system_prompt)
+                raw_text = await _call_hedged(model, user_prompt, system_prompt)
             except Exception as e:  # noqa: BLE001
                 # Overloaded / rate-limited: one short back-off retry on the same model.
                 m = str(e).lower()
-                if any(t in m for t in ("503", "unavailable", "overloaded", "429", "resource_exhausted")):
+                if isinstance(e, asyncio.TimeoutError):
+                    # A hung request usually succeeds on an immediate retry (seen: 3s vs a 45s stall).
+                    logger.warning("Gemini slow on model=%s (>%.0fs), retrying once", model, _REQUEST_TIMEOUT_S)
+                    raw_text = await _call_hedged(model, user_prompt, system_prompt)  # 2nd timeout propagates
+                elif any(t in m for t in ("503", "unavailable", "overloaded", "429", "resource_exhausted")):
                     logger.info("Gemini busy on model=%s, retrying once", model)
                     await asyncio.sleep(1.5)
-                    raw_text = await _call_model(model, user_prompt, system_prompt)
+                    raw_text = await _call_hedged(model, user_prompt, system_prompt)
                 else:
                     raise
             served_by = model
